@@ -1,3 +1,4 @@
+<h2>{{ category }}</h2>
 {% for product in products %}
     <a href="{% url 'product' product.id %}"> 
         <img src="{{ product.image.url }}" alt="Product image" width=200 height=100>
@@ -5,5 +6,5 @@
     <a href="{% url 'product' product.id %}"> 
         <p>{{ product.name }}</p>
     </a>
-    <p>{{ product.price }}</p>
+    <p>{{ product.price }} ₽</p>
 {% endfor %}
