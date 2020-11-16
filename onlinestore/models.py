@@ -3,7 +3,13 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
@@ -11,31 +17,20 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(blank=True,
                               upload_to='images/products/')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category,
+                                 on_delete=models.PROTECT,
+                                 related_name='products')
     price = models.DecimalField(max_digits=7, decimal_places=2)
     description = models.TextField(blank=True)
-    quantity_in_stock = models.IntegerField(default=0)
+    available = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
-    def is_available(self):
-        return self.quantity > 0
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
-
-
-class OrderProduct(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-
-
-class Order(models.Model):
-    products = models.ManyToManyField(OrderProduct)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    ordered = models.BooleanField(default=False)
-    ordered_date = models.DateTimeField()
-
-    def __str__(self):
-        return self.user.username

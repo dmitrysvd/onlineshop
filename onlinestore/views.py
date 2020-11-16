@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Category, Product, Order, OrderProduct
+from .models import Category, Product
 
 
 def index(request):
@@ -28,6 +28,5 @@ def product(request, product_id):
 
 
 def shopcart(request):
-    order = Order.objects.get(user__id=0)
-    context = {'orders': orders}
+    context = {}
     return render(request, 'onlinestore/shopcart.html', context=context)
