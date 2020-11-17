@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Product
 
 
@@ -12,17 +12,21 @@ def categories(request):
     return render(request, 'onlinestore/categories.html', context=context)
 
 
-def product_list(request, category_id):
-    products = Product.objects.filter(category__id=category_id)
-    print(category_id)
-    category = Category.objects.get(id=category_id)
-    context = {'category': category.name,
+def product_list(request, category_slug=None):
+    category = None
+    products = Product.objects.filter(available=True)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+    context = {'category': category,
                'products': products}
     return render(request, 'onlinestore/product_list.html', context=context)
 
 
-def product(request, product_id):
-    product = Product.objects.get(pk=product_id)
+def product_detail(request, product_slug):
+    product = get_object_or_404(Product,
+                                slug=product_slug,
+                                available=True)
     context = {'product': product}
     return render(request, 'onlinestore/product_info.html', context=context)
 
