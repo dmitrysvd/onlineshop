@@ -3,7 +3,7 @@ from .models import Category, Product
 
 
 def index(request):
-    return redirect('categories')
+    return redirect('onlinestore:categories')
 
 
 def categories(request):
@@ -23,9 +23,9 @@ def product_list(request, category_slug=None):
     return render(request, 'onlinestore/product_list.html', context=context)
 
 
-def product_detail(request, product_slug):
+def product_detail(request, product_id):
     product = get_object_or_404(Product,
-                                slug=product_slug,
+                                pk=product_id,
                                 available=True)
     context = {'product': product}
     return render(request, 'onlinestore/product_info.html', context=context)
