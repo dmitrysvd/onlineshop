@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'onlinestore.apps.OnlinestoreConfig',
+    'cart.apps.CartConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -124,3 +125,6 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+
+CART_SESSION_ID = 'cart'

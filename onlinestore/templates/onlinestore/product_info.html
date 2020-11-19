@@ -1,9 +1,0 @@
-<h1>{{ product.name }}</h1>
-{% if product.image %}
-    <img src="{{ product.image.url }}" alt="Product image" width=400 height=200>
-{% endif %}
-<p>Категория: {{ product.category.name }}</p>
-<p>Цена: {{ product.price }} ₽<p>
-<h2>Описание</h2>
-<p>{{ product.description }}</p>
-<button type="button">Добавить в корзину</button>
