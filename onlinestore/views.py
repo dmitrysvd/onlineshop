@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Product
-from cart.forms import CartAddProductForm
+from cart.forms import CartUpdateProductForm
+from cart.cart import Cart
 
 
 def index(request):
@@ -28,7 +29,8 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product,
                                 pk=product_id,
                                 available=True)
-    cart_product_form = CartAddProductForm()
+    cart = Cart(request)
+    product_is_in_cart = cart.contains(product)
     context = {'product': product,
-               'cart_product_form': cart_product_form}
+               'is_in_cart': product_is_in_cart}
     return render(request, 'onlinestore/product_detail.html', context=context)

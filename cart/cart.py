@@ -12,23 +12,29 @@ class Cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self, product: Product, quantity=1, override_quantity=True):
+    def add(self, product: Product):
         """
-        Add a product to the cart.
+        Add product to cart.
         """
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0,
+            self.cart[product_id] = {'quantity': 1,
                                      'price': str(product.price)}
-        if override_quantity:
-            self.cart[product_id]['quantity'] = quantity
-        else:
-            self.cart[product_id]['quantity'] += quantity
+        self.save()
+
+    def update(self, product: Product, quantity: int):
+        """
+        Update product quantity.
+        """
+        product_id = str(product.id)
+        if product_id not in self.cart:
+            self.add(product)
+        self.cart[product_id]['quantity'] = quantity
         self.save()
 
     def remove(self, product: Product):
         """
-        Remove a product from the cart.
+        Remove product from cart.
         """
         product_id = str(product.id)
         if product_id in self.cart:
@@ -49,6 +55,9 @@ class Cart:
             Decimal(item['price']) * item['quantity']
             for item in self.cart.values()
         )
+
+    def contains(self, product: Product):
+        return str(product.id) in self.cart.keys()
 
     def __iter__(self):
         """

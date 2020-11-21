@@ -14,7 +14,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse("onlinestore:product_list", args=[self.slug])
 
@@ -38,7 +38,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse("onlinestore:product_detail", args=[self.pk])
-    

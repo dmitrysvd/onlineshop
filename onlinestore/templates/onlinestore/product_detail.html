@@ -1,27 +1,33 @@
 {% extends 'onlinestore/base.html' %}
 
 {% block title %}
-    {{ product.name }}
+  {{ product.name }}
 {% endblock title %}
 
 {% block content %}
-    <h1>{{ product.name }}</h1>
+  <h1>{{ product.name }}</h1>
 
-    {% if product.image %}
-        <img src="{{ product.image.url }}" alt="Product image" width=400 height=400>
-    {% else %}
-        <img src="/media/images/no_image.png" alt="Product image" width=400 height=400>
-    {% endif %}
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="Product image" width=400 height=400>
+  {% else %}
+    <img src="/media/images/no_image.png" alt="Product image" width=400 height=400>
+  {% endif %}
 
-    <p>Категория: {{ product.category.name }}</p>
-    <p>Цена: {{ product.price }} ₽<p>
+  <p>Категория: {{ product.category.name }}</p>
+  <p>Цена: {{ product.price }} ₽<p>
 
-    <form action="{% url 'cart:cart_add' product.id %}" method="post">
-        {{ cart_product_form }}
-        {% csrf_token %}
-        <input type="submit" value="Добавить в корзину">
+  {% if is_in_cart %}
+    <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Убрать из корзины">
     </form>
+  {% else %}
+    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Добавить в корзину">
+    </form>
+  {% endif %}
 
-    <h2>Описание</h2>
-    <p>{{ product.description|linebreaks }}</p>
+  <h2>Описание</h2>
+  <p>{{ product.description|linebreaks }}</p>
 {% endblock content %}
