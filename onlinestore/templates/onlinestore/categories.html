@@ -1,10 +1,14 @@
-<h2>Категории товаров</h2>
-<ul>
-{% for category in categories %}
+{% extends 'onlinestore/base.html' %}
+
+{% block content %}
+  <h2>Категории товаров</h2>
+  <ul>
+  {% for category in categories %}
     <li>
-        <a href="{{ category.get_absolute_url }}"> 
-            {{ category.name }} 
-        </a>
+      <a href="{{ category.get_absolute_url }}">
+        {{ category.name }}
+      </a>
     </li>
-{% endfor %}
-</ul>
+  {% endfor %}
+  </ul>
+{% endblock content %}

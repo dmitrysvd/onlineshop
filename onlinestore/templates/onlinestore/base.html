@@ -11,6 +11,19 @@
 </head>
 
 <body>
+  <p>
+    {% with cart.get_total_quantity as total_quantity %}
+      {% if total_quantity > 0 %}
+        Ваша корзина:
+        <a href="{% url 'cart:cart_detail' %}">
+          {{ total_quantity }} товаров,
+          {{ cart.get_total_price }} р.
+        </a>
+      {% else %}
+        Ваша корзина пуста
+      {% endif %}
+    {% endwith %}
+  </p>
   <script src="#"></script>
   {% block content %}{% endblock content %}
 </body>
