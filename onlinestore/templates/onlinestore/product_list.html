@@ -1,4 +1,5 @@
 {% extends 'onlinestore/base.html' %}
+{% load static %}
 
 {% block title %}
     {% if category %}
@@ -20,7 +21,7 @@
             {% if product.image %}
                 <img src="{{ product.image.url }}" alt="Product image" width=200 height=200>
             {% else %}
-                <img src="/media/images/no_image.png" alt="Product image" width=200 height=200>
+                <img src="{% static 'onlinestore/images/no_product_image.png' %}" alt="Product image" width=200 height=200>
             {% endif %}
         </a>
         <a href="{{ product.get_absolute_url }}"> 
