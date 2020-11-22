@@ -13,4 +13,5 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'price',
                     'available', 'created', 'updated']
     list_editable = ['price', 'available']
+    list_filter = ['available']
     prepopulated_fields = {'slug': ('name',)}
