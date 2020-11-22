@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
@@ -16,13 +16,15 @@ def create_order(request):
                                          price=item['price'],
                                          quantity=item['quantity'])
             cart.clear()
-            context = {'cart': cart, 'form': form}
-            return render(request,
-                          'orders/order_created.html',
-                          context)
+            return redirect('orders:order_created')
     else:
         form = OrderCreateForm()
-        context = {'cart': cart, 'form': form}
-        return render(request,
-                      'orders/create_order.html',
-                      context)
+
+    return render(request,
+                  'orders/create_order.html',
+                  {'cart': cart, 'form': form})
+
+
+def order_created(request):
+    return render(request,
+                  'orders/order_created.html')
