@@ -4,14 +4,10 @@ from cart.forms import ItemQuantityUpdateForm
 from cart.cart import Cart
 
 
-def index(request):
-    return redirect('onlinestore:categories')
-
-
-def categories(request):
+def main(request):
     categories = Category.objects.all()
     context = {'categories': categories}
-    return render(request, 'onlinestore/categories.html', context=context)
+    return render(request, 'onlinestore/main.html', context=context)
 
 
 def product_list(request, category_slug=None):
