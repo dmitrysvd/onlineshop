@@ -170,30 +170,11 @@
     <div class="header__bottom">
         <div class="container">
             <ul class="menu-categories">
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html"> Квадроциклы</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Катера</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Гидроциклы</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Лодки</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Вездеходы</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Снегоходы</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Двигатели</a>
-                </li>
-                <li class="menu-categories__item">
-                    <a class="menu-categories__link" href="catalog.html">Запчасти</a>
-                </li>
+                {% for category in categories %}
+                    <li class="menu-categories__item">
+                        <a class="menu-categories__link" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
             </ul>
         </div>
     </div>

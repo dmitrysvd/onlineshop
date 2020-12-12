@@ -91,60 +91,17 @@
 <section class="categories">
     <div class="container">
         <div class="categories__inner">
-            <a class="categories__item" href="catalog.html">
-                <div class="categories__item-info">
-                    <h4 class="categories__item-title">Квадроциклы</h4>
-                    <p class="categories__item-text">Подробее</p>
-                </div>
-                <div class="categories__item-img">
-                    <img src="{% static 'onlinestore/images/categories-1.png' %}" alt="">
-                </div>
-            </a>
-            <a class="categories__item" href="catalog.html">
-                <div class="categories__item-info">
-                    <h4 class="categories__item-title">Гидроциклы</h4>
-                    <p class="categories__item-text">Подробее</p>
-                </div>
-                <div class="categories__item-img">
-                    <img src="{% static 'onlinestore/images/categories-2.png' %}" alt="">
-                </div>
-            </a>
-            <a class="categories__item" href="catalog.html">
-                <div class="categories__item-info">
-                    <h4 class="categories__item-title">Катера</h4>
-                    <p class="categories__item-text">Подробее</p>
-                </div>
-                <div class="categories__item-img">
-                    <img src="{% static 'onlinestore/images/categories-3.png' %}" alt="">
-                </div>
-            </a>
-            <a class="categories__item" href="catalog.html">
-                <div class="categories__item-info">
-                    <h4 class="categories__item-title">Снегоходы</h4>
-                    <p class="categories__item-text">Подробее</p>
-                </div>
-                <div class="categories__item-img">
-                    <img src="{% static 'onlinestore/images/categories-4.png' %}" alt="">
-                </div>
-            </a>
-            <a class="categories__item" href="catalog.html">
-                <div class="categories__item-info">
-                    <h4 class="categories__item-title">Вездеходы</h4>
-                    <p class="categories__item-text">Подробее</p>
-                </div>
-                <div class="categories__item-img">
-                    <img src="{% static 'onlinestore/images/categories-5.png' %}" alt="">
-                </div>
-            </a>
-            <a class="categories__item" href="catalog.html">
-                <div class="categories__item-info">
-                    <h4 class="categories__item-title">Двигатели</h4>
-                    <p class="categories__item-text">Подробее</p>
-                </div>
-                <div class="categories__item-img">
-                    <img src="{% static 'onlinestore/images/categories-6.png' %}" alt="">
-                </div>
-            </a>
+            {% for category in categories %}
+                <a class="categories__item" href="{{ category.get_absolute_url }}">
+                    <div class="categories__item-info">
+                        <h4 class="categories__item-title">{{ category.name }}</h4>
+                        <p class="categories__item-text">Подробее</p>
+                    </div>
+                    <div class="categories__item-img">
+                        <img src="{{ category.image.url }}" alt="">
+                    </div>
+                </a>
+            {% endfor %}
         </div>
     </div>
 </section>

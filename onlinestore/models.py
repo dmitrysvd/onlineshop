@@ -6,6 +6,8 @@ from django.urls import reverse
 class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
+    image = models.ImageField(blank=True,
+                              upload_to='images/categories/')
 
     class Meta:
         ordering = ('name',)
