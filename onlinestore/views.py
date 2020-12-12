@@ -5,8 +5,7 @@ from cart.cart import Cart
 
 
 def main(request):
-    categories = Category.objects.all()
-    context = {'categories': categories}
+    context = {}
     return render(request, 'onlinestore/main.html', context=context)
 
 
