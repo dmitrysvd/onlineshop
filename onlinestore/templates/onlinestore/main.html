@@ -28,27 +28,29 @@
                     <img class="banner-section__slider-img" src="{% static 'onlinestore/images/banner-slider.jpg' %}" alt="">
                 </a>
             </div>
-            <a class="banner-section__item" href="#">
+            {% if sale_item %}
+            <a class="banner-section__item" href="{{ sale_item.get_absolute_url }}">
                 <div class="banner-section__item-top sale-item">
                     <div class="sale-item__top">
                         <p class="sale-item__info">акция</p>
                         <div class="sale-item__price">
                             <div class="price sale-item__price-new">
-                                190 000
+                                {{ sale_item.discount_price }}
                             </div>
                             <div class="price sale-item__price-old">
-                                225 000
+                                {{ sale_item.price }}
                             </div>
                         </div>
                     </div>
-                        <img class="sale-item__img" src="{% static 'onlinestore/images/content/sale-1.png' %}" alt="" >
-                        <h5 class="sale-item__title">Лодочный мотор Suzuki DF9.9BRS</h5>
+                    <img class="sale-item__img" src="{{ sale_item.image.url }}" alt="" >
+                    <h5 class="sale-item__title">{{ sale_item.name }}</h5>
                 <div class="sale-item__footer">
                     Акция действует до
-                    <span>31.08.2020</span>
+                    <span>31.02.1021</span>
                 </div>
                 </div>
             </a>
+            {% endif %}
         </div>
     </div>
 </section>

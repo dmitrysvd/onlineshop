@@ -2,10 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Product
 from cart.forms import ItemQuantityUpdateForm
 from cart.cart import Cart
+import random
 
 
 def main(request):
-    context = {}
+    try:
+        sale_item = random.choice(
+            Product.objects.filter(sale=True, available=True)
+        )
+    except IndexError:
+        sale_item = None
+    context = {'sale_item': sale_item}
     return render(request, 'onlinestore/main.html', context=context)
 
 
