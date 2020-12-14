@@ -10,7 +10,7 @@
         <div class="breadcrumbs__inner">
             <ul class="breadcrumbs__list mobile-overflow">
                 <li class="breadcrumbs__list-item">
-                    <a href="#">Главная</a>
+                    <a href="{% url 'onlinestore:main' %}">Главная</a>
                 </li>
                 <li class="breadcrumbs__list-item">
                     <a href="{{ product.category.get_absolute_url }}">
