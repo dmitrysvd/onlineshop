@@ -30,11 +30,22 @@ class Product(models.Model):
                                  on_delete=models.PROTECT,
                                  related_name='products')
     price = models.DecimalField(max_digits=9, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=9,
+                                         decimal_places=2,
+                                         blank=True, null=True)
     sale = models.BooleanField(default=False)
     description = models.TextField(blank=True)
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.discount_price is None:
+            self.sale = False
+        super().save(*args, **kwargs)
+
+    def current_price(self):
+        return self.discount_price if self.sale else self.price
 
     class Meta:
         ordering = ('name',)

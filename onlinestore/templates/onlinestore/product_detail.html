@@ -29,10 +29,12 @@
 <section class="product-card">
     <div class="container">
         <div class="product-card__inner">
-            <div class="product-card__img-box product-item--sale">
+            <div class="product-card__img-box {% if product.sale %}product-item--sale{% endif %}">
                 <img class="product-card__img" src="{{ product.image.url }}" alt="" >
-                <p class="product-card__price-old">1 200 475 ₽</p>
-                <p class="product-card__price-new">{{ product.price }} ₽</p>
+                {% if product.sale %}
+                    <p class="product-card__price-old">{{ product.price }} ₽</p>
+                {% endif %}
+                <p class="product-card__price-new">{{ product.current_price }} ₽</p>
                 <a  class="product-card__link" href="#">Нашли дешевле? Снизим цену!</a>
                 <div class="product-card__btn product-card__btn--mobile">
                     <button>купить</button>
