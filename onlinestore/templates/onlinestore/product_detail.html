@@ -1,6 +1,8 @@
 {% extends 'onlinestore/base.html' %}
 {% load static %}
 
+{% block title %}{{ product.name }}{% endblock title %}
+
 {% block content %}
 
 <div class="breadcrumbs">
@@ -11,10 +13,12 @@
                     <a href="#">Главная</a>
                 </li>
                 <li class="breadcrumbs__list-item">
-                    <span>Гидроциклы</span>
+                    <a href="{{ product.category.get_absolute_url }}">
+                        <span>{{ product.category.name }}</span>
+                    </a>
                 </li>
                 <li class="breadcrumbs__list-item">
-                    <span> Гидроцикл BRP SeaDoo GTI 155hp SE Long Blue Metallic</span>
+                    <span>{{ product.name }}</span>
                 </li>
             </ul>
         </div>
@@ -26,9 +30,9 @@
     <div class="container">
         <div class="product-card__inner">
             <div class="product-card__img-box product-item--sale">
-                <img class="product-card__img" src="images/content/gidrotsikl-large.png" alt="" >
+                <img class="product-card__img" src="{{ product.image.url }}" alt="" >
                 <p class="product-card__price-old">1 200 475 ₽</p>
-                <p class="product-card__price-new">1 100 475 ₽</p>
+                <p class="product-card__price-new">{{ product.price }} ₽</p>
                 <a  class="product-card__link" href="#">Нашли дешевле? Снизим цену!</a>
                 <div class="product-card__btn product-card__btn--mobile">
                     <button>купить</button>
@@ -36,15 +40,15 @@
             </div>
             <div class="product-card__content">
                 <h1 class="product-card__title">
-                    Гидроцикл BRP SeaDoo GTI 155hp SE Long Blue Metallic
+                    {{ product.name }}
                 </h1>
-                <p class="product-card__code"> Код товара: 	366666-2</p>
+                <p class="product-card__code"> Код товара: 	{{ product.id }}</p>
                 <div class="product-card__buttons">
                     <a class="product-card__icon-favorite" href="#">
-                        <img  src="images/heart.svg" alt="">
+                        <img  src="{% static 'onlinestore/images/heart.svg' %}" alt="">
                     </a>
                     <a class="product-card__icon-comparsion" href="#" >
-                        <img src="images/comparsion.svg" alt="">
+                        <img src="{% static 'onlinestore/images/comparsion.svg' %}" alt="">
                     </a>
                     <a class="rate" href="#">
                         <div class="rate-yo" data-rateyo-rating="4"></div>

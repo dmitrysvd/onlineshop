@@ -22,8 +22,7 @@ def product_list(request, category_slug=None):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product,
-                                pk=product_id,
-                                available=True)
+                                pk=product_id)
     cart = Cart(request)
     product_is_in_cart = cart.contains(product)
     context = {'product': product,
