@@ -12,7 +12,9 @@ def main(request):
         )
     except IndexError:
         sale_item = None
-    context = {'sale_item': sale_item}
+    popular_products = Product.objects.order_by('-popularity')[:8]
+    context = {'sale_item': sale_item,
+               'popular_products': popular_products, }
     return render(request, 'onlinestore/main.html', context=context)
 
 

@@ -39,6 +39,8 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    popularity = models.FloatField(default=0)
+
     def save(self, *args, **kwargs):
         if self.discount_price is None:
             self.sale = False
