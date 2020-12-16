@@ -21,6 +21,27 @@ class Category(models.Model):
         return reverse("onlinestore:product_list", args=[self.slug])
 
 
+class Brand(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+ENGINE_TYPE_CHOICES = (
+    ('gas', 'Бензиновый'),
+    ('electric', 'Электрический'),
+    ('diesel', 'Дизельный'),
+)
+
+COUNTRY_CHOICES = (
+    ('canada', 'Канада'),
+    ('usa', 'Америка'),
+    ('russia', 'Россия'),
+    ('china', 'Китай')
+)
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
@@ -41,11 +62,26 @@ class Product(models.Model):
 
     popularity = models.FloatField(default=0)
 
+    # product properties
+    manufacturer_country = models.CharField(max_length=10,
+                                            choices=COUNTRY_CHOICES)
+    brand = models.ForeignKey(Brand,
+                              on_delete=models.CASCADE,
+                              related_name='products',
+                              blank=True,
+                              null=True)
+    model_name = models.CharField(max_length=200)
+    engine_power = models.IntegerField()
+    engine_type = models.CharField(max_length=10, choices=ENGINE_TYPE_CHOICES)
+    number_of_seats = models.IntegerField()
+    year_of_issue = models.IntegerField()
+
     def save(self, *args, **kwargs):
         if self.discount_price is None:
             self.sale = False
         super().save(*args, **kwargs)
 
+    @property
     def current_price(self):
         return self.discount_price if self.sale else self.price
 

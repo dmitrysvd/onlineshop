@@ -71,23 +71,23 @@
                             <ul class="product-card__list">
                                 <li class="product-card__item">
                                     <div class="product-card__item-left">Производитель</div>
-                                    <div class="product-card__item-right">Канада</div>
+                                    <div class="product-card__item-right">{{ product.get_manufacturer_country_display }}</div>
                                 </li>
                                 <li class="product-card__item">
                                     <div class="product-card__item-left">Количество мест, шт: </div>
-                                    <div class="product-card__item-right">3</div>
+                                    <div class="product-card__item-right">{{ product.number_of_seats }}</div>
                                 </li>
                                 <li class="product-card__item">
                                     <div class="product-card__item-left">Мощность, л.с.</div>
-                                    <div class="product-card__item-right">155</div>
+                                    <div class="product-card__item-right">{{ product.engine_power }}</div>
                                 </li>
                                 <li class="product-card__item">
                                     <div class="product-card__item-left">Тип двигателя</div>
-                                    <div class="product-card__item-right">Бензиновый</div>
+                                    <div class="product-card__item-right">{{ product.get_engine_type_display }}</div>
                                 </li>
                                 <li class="product-card__item">
                                     <div class="product-card__item-left">Год выпуска</div>
-                                    <div class="product-card__item-right">	2018</div>
+                                    <div class="product-card__item-right">{{ product.year_of_issue }}</div>
                                 </li>
                             </ul>
                             <a  class="product-card__more" href="#">
