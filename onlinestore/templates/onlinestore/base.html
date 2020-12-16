@@ -58,9 +58,13 @@
                             <img src="{% static 'onlinestore/images/user.svg' %}" alt="">
                         </li>
                         <li class="user-list__item">
-                            <a  class="user-list__link basket" href="#">
+                            <a class="user-list__link basket" href="{% url 'cart:cart_detail' %}">
                                 <img src="{% static 'onlinestore/images/basket.svg' %}" alt="">
-                                <p class="basket__num"> 1</p>
+                                {% with cart.get_total_quantity as cart_total_quantity %}
+                                    {% if total_quantity > 0 %}
+                                        <p class="basket__num">{{ cart.get_total_quantity }}</p>
+                                    {% endif %}
+                                {% endwith %}
                             </a>
                         </li>
                     </ul>
