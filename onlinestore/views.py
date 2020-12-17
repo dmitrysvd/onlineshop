@@ -18,12 +18,19 @@ def main(request):
     return render(request, 'onlinestore/main.html', context=context)
 
 
-def product_list(request, category_slug=None):
-    category = None
-    products = Product.objects.all()
-    if category_slug:
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
+def product_list(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug)
+    products = Product.objects.filter(category=category)
+
+    # sorting
+    sort_option = request.GET.get('sort')
+    if sort_option == 'popularity':
+        products = products.order_by('-popularity')
+    elif sort_option == 'price':
+        products = sorted(products, key=lambda p: p.current_price)
+    else:
+        products = products.order_by('-popularity')
+
     context = {'category': category,
                'products': products}
     return render(request, 'onlinestore/product_list.html', context=context)
