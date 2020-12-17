@@ -102,6 +102,18 @@
                                 Показать еще
                             </a>
                             <div class="product-card__btn">
+                                {% if is_in_cart %}
+                                    <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Убрать из корзины">
+                                    </form>
+                                {% else %}
+                                    <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Добавить в корзину">
+                                    </form>
+                                {% endif %}
+
                                 <button>купить</button>
                             </div>
                         </div>

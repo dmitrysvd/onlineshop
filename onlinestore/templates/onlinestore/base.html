@@ -61,8 +61,8 @@
                             <a class="user-list__link basket" href="{% url 'cart:cart_detail' %}">
                                 <img src="{% static 'onlinestore/images/basket.svg' %}" alt="">
                                 {% with cart.get_total_quantity as cart_total_quantity %}
-                                    {% if total_quantity > 0 %}
-                                        <p class="basket__num">{{ cart.get_total_quantity }}</p>
+                                    {% if cart_total_quantity > 0 %}
+                                        <p class="basket__num">{{ cart_total_quantity }}</p>
                                     {% endif %}
                                 {% endwith %}
                             </a>
