@@ -337,7 +337,7 @@
             </div>
 
             <div class="catalog__inner-list">
-                {% for product in products %}
+                {% for product in page_obj %}
                     
                     <div class="product-item__wrapper {% if not product.available %}product-item__not-available{% endif %}">
                         <button class="product-item__favorite">
@@ -358,17 +358,29 @@
                     </div>
                 {% endfor %}
 
-                <div class="pagination">
-                    <ul class="pagination-list">
-                        <li class="pagination-list__item active"><a href="#">1</a></li>
-                        <li class="pagination-list__item"><a href="#">2</a></li>
-                        <li class="pagination-list__item"><a href="#">3</a></li>
-                        <li class="pagination-list__item"><a href="#">4</a></li>
-                        <li class="pagination-list__item"><a href="#">5</a></li>
-                        <li class="pagination-list__item pagination-list__item--dots"><span>...</span></li>
-                        <li class="pagination-list__item"><a href="#">11</a></li>
-                    </ul>
-                </div>
+                {% if page_obj.has_other_pages %}
+                    <div class="pagination">
+                        <ul class="pagination-list">
+
+                            {% if page_obj.has_previous %}
+                                <li class="pagination-list__item"><a href="?page={{ page_obj.previous_page_number }}">Предыдующая страница</a></li>
+                            {% endif %}
+
+                            {% for page_num in page_obj.paginator.page_range %}
+                                {% if page_num == page_obj.number %}
+                                    <li class="pagination-list__item active">{{ page_obj.number }}</li>
+                                {% else %}
+                                    <li class="pagination-list__item"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="pagination-list__item"><a href="?page={{ page_obj.next_page_number }}">Следующая страница</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

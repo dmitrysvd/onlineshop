@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Category, Product
-from cart.forms import ItemQuantityUpdateForm
 from cart.cart import Cart
 import random
 
@@ -31,8 +31,17 @@ def product_list(request, category_slug):
     else:
         products = products.order_by('-popularity')
 
+    paginator = Paginator(products, 12)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
     context = {'category': category,
-               'products': products}
+               'page_obj': page_obj}
     return render(request, 'onlinestore/product_list.html', context=context)
 
 
