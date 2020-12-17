@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product
+from .models import Category, Product, Brand
 
 
 @admin.register(Category)
@@ -17,3 +17,6 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
     ordering = ('price', 'discount_price', 'created', 'updated')
+
+
+admin.site.register(Brand)

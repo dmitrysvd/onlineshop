@@ -70,8 +70,16 @@
                         <div id="product-1" class="tabs-content product-card__tab-content tabs-content--active">
                             <ul class="product-card__list">
                                 <li class="product-card__item">
-                                    <div class="product-card__item-left">Производитель</div>
+                                    <div class="product-card__item-left">Страна-роизводитель</div>
                                     <div class="product-card__item-right">{{ product.get_manufacturer_country_display }}</div>
+                                </li>
+                                <li class="product-card__item">
+                                    <div class="product-card__item-left">Марка</div>
+                                    <div class="product-card__item-right">{{ product.brand.name }}</div>
+                                </li>
+                                <li class="product-card__item">
+                                    <div class="product-card__item-left">Модель</div>
+                                    <div class="product-card__item-right">{{ product.model_name }}</div>
                                 </li>
                                 <li class="product-card__item">
                                     <div class="product-card__item-left">Количество мест, шт: </div>

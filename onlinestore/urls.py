@@ -6,10 +6,10 @@ app_name = 'onlinestore'
 
 urlpatterns = [
     path('', views.main, name='main'),
-    path('products/<slug:category_slug>',
+    path('products/<slug:category_slug>/',
          views.product_list,
          name='product_list'),
-    path('product/<int:product_id>',
+    path('product/<int:product_id>/',
          views.product_detail,
          name='product_detail'),
 ]
