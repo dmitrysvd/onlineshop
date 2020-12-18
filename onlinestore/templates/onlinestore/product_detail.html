@@ -105,16 +105,14 @@
                                 {% if is_in_cart %}
                                     <form action="{% url 'cart:cart_remove' product.id %}" method="post">
                                     {% csrf_token %}
-                                    <input type="submit" value="Убрать из корзины">
+                                    <button type="submit">Убрать из корзины</button>
                                     </form>
                                 {% else %}
                                     <form action="{% url 'cart:cart_add' product.id %}" method="post">
                                     {% csrf_token %}
-                                    <input type="submit" value="Добавить в корзину">
+                                    <button type="submit">Добавить в корзину</button>
                                     </form>
                                 {% endif %}
-
-                                <button>купить</button>
                             </div>
                         </div>
                         <div id="product-2" class="tabs-content product-card__tab-content ">
