@@ -35,11 +35,13 @@
             </div>
             </div>
             <div class="catalog__filter-btn">
-                <select class="filter-style select-item">
-                    <option>По полулярности</option>
-                    <option>По полулярности</option>
-                    <option>По полулярности</option>
-                </select>
+                <form action="" method="GET">
+                    <!--{% csrf_token %}-->
+                    <select class="filter-style select-item" name="sort" onchange="this.form.submit()">
+                        <option value="popularity" {% if sort_option == 'popularity' %}selected{% endif %}>По полулярности</option>
+                        <option value="price" {% if sort_option == 'price' %}selected{% endif %}>По цене</option>
+                    </select>
+                </form>
                 <button class="catalog__filter-btngrid catalog__filter-button catalog__filter-button--active">
                     <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="1" y="1" width="21" height="19" stroke="#2F3035" stroke-width="2"/>

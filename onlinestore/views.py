@@ -31,6 +31,7 @@ def product_list(request, category_slug):
     else:
         products = products.order_by('-popularity')
 
+    # pagination
     paginator = Paginator(products, 12)
     page = request.GET.get('page')
     try:
@@ -41,7 +42,8 @@ def product_list(request, category_slug):
         page_obj = paginator.page(paginator.num_pages)
 
     context = {'category': category,
-               'page_obj': page_obj}
+               'page_obj': page_obj,
+               'sort_option': sort_option}
     return render(request, 'onlinestore/product_list.html', context=context)
 
 
