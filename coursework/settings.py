@@ -31,16 +31,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'onlinestore.apps.OnlinestoreConfig',
-    'cart.apps.CartConfig',
-    'orders.apps.OrdersConfig',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_filters',
+    'widget_tweaks',
+
+    'onlinestore.apps.OnlinestoreConfig',
+    'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [

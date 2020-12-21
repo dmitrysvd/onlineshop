@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Category, Product
+from .filters import ProductFilter
 from cart.cart import Cart
 import random
 
@@ -27,12 +28,15 @@ def product_list(request, category_slug):
     if sort_option == 'popularity':
         products = products.order_by('-popularity')
     elif sort_option == 'price':
-        products = sorted(products, key=lambda p: p.current_price)
+        pass
+        # products = sorted(products, key=lambda p: p.current_price)
     else:
         products = products.order_by('-popularity')
 
+    filter_form = ProductFilter(request.GET, queryset=products)
+
     # pagination
-    paginator = Paginator(products, 12)
+    paginator = Paginator(filter_form.qs, 12)
     page = request.GET.get('page')
     try:
         page_obj = paginator.page(page)
@@ -43,6 +47,7 @@ def product_list(request, category_slug):
 
     context = {'category': category,
                'page_obj': page_obj,
+               'filter': filter_form,
                'sort_option': sort_option}
     return render(request, 'onlinestore/product_list.html', context=context)
 

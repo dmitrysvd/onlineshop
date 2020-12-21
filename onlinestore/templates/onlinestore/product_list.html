@@ -1,5 +1,6 @@
 {% extends 'onlinestore/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}{{ category.name }}{% endblock title %}
 
@@ -82,7 +83,7 @@
                 </div>
                 <div class="tabs-container">
                     <div id="filter-1-1" class="tabs-content aside-filter__tabs-content tabs-content--active">
-                        <form class="aside-filter__form">
+                        <form class="aside-filter__form" method="GET" action="">
                             <ul class="aside-filter__list">
                                 <li class="aside-filter__item-drop">
                                     <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
@@ -293,8 +294,16 @@
 
                                 <li class="aside-filter__item-drop">
                                     <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Страны</p>
+                                        {{ filter.form.fields.manufacturer_country.label }}</p>
                                     <div class="aside-filter__content">
+                                        {% for choice in filter.form.fields.manufacturer_country.choices %}
+                                            <div class="aside-filter__content-box">
+                                                <label class="aside-filter__content-label">
+                                                    <input class="filter-style" type="checkbox" checked>
+                                                    {{ choice }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
                                         <div class="aside-filter__content-box">
                                             <label class="aside-filter__content-label">
                                                 <input class="filter-style" type="checkbox" checked>
@@ -330,6 +339,10 @@
                                 </li>
                             </ul>
 
+                        </form>
+                        <form method="get">
+                            {{ filter.form.as_ul }}
+                            <button type="submit" class="filter-btn__send filter-btn__send--active">ВЫБРАТЬ</button>
                         </form>
                     </div>
                     <div id="filter-1-2" class="tabs-content aside-filter__tabs-content">
