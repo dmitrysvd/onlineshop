@@ -112,6 +112,30 @@
     <div class="container">
         <div class="products__inner">
             <h3 class="product__title">Популярные товары</h3>
+            <div class="product-slider">
+                {% for product in popular_products %}
+                    <div class="product-slider__item {% if not product.available %}product-item__not-available{% endif %}">
+                        <div class="product-item__wrapper {% if not product.available %}product-item__not-available{% endif %}">
+                            <button class="product-item__favorite">
+                            </button>
+                            <button class="product-item__basket">
+                                <img src="{% static 'onlinestore/images/basket-white.svg' %}" alt="">
+                            </button>
+                            <a href="" class="product-item__notify-link">
+                                <span>Сообщить о поступлении</span>
+                            </a>
+                            <a  class="product-item {% if product.sale %}product-item--sale{% endif %}" href="{{ product.get_absolute_url }}">
+                                <p class="product-item__hover-text">посмотреть товар</p>
+                                <img class="product-item__img" src="{{ product.image.url }}" alt="">
+                                <h4 class="product-item__title">{{ product.name }}</h4>
+                                <p class="price product-item__price">{{ product.current_price }} ₽</p>
+                                <p class="product-item__notify-text">нет в наличии</p>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% comment %}
             <div class="tabs-wrapper">
                 <div class="tabs products__tabs mobile-overflow">
                     <a class="tab products__tab tab--active" href="#product-tab-1">запчасти</a>
@@ -122,6 +146,8 @@
                     <a class="tab products__tab" href="#product-tab-6">аксессуары </a>
                 </div>
             </div>
+            {% endcomment %}
+            {% comment %}
             <div class="tabs-container products__container">
                 <div id="product-tab-1" class="tabs-content products__content tabs-content--active">
                     <div class="product-slider">
@@ -321,10 +347,13 @@
                     slider-6
                 </div>
             </div>
+            {% endcomment %}
         </div>
+        {% comment %}
         <div class="product__more">
             <a href="#" class="product__more-link">Показать еще</a>
         </div>
+        {% endcomment %}
     </div>
 </section>
 

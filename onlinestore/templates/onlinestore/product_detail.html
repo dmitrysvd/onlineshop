@@ -35,7 +35,7 @@
                     <p class="product-card__price-old">{{ product.price }} ₽</p>
                 {% endif %}
                 <p class="product-card__price-new">{{ product.current_price }} ₽</p>
-                <a  class="product-card__link" href="#">Нашли дешевле? Снизим цену!</a>
+                {# <a  class="product-card__link" href="#">Нашли дешевле? Снизим цену!</a> #}
                 <div class="product-card__btn product-card__btn--mobile">
                     <button>купить</button>
                 </div>
@@ -61,9 +61,11 @@
                         <a class="tab product-card__tab tab--active" href="#product-1">
                             Характеристики
                         </a>
+                        {% comment %}
                         <a class="tab  product-card__tab" href="#product-2">
                             Наличие в магазине
                         </a>
+                        {% endcomment %}
                     </div>
                 </div>
                     <div class="tabs-container">
@@ -98,9 +100,11 @@
                                     <div class="product-card__item-right">{{ product.year_of_issue }}</div>
                                 </li>
                             </ul>
+                            {% comment %}
                             <a  class="product-card__more" href="#">
                                 Показать еще
                             </a>
+                            {% endcomment %}
                             <div class="product-card__btn">
                                 {% if is_in_cart %}
                                     <form action="{% url 'cart:cart_remove' product.id %}" method="post">
@@ -124,6 +128,7 @@
     </div>
 </section>
 
+{% comment %}
 <section class="card__tabs">
     <div class="container">
         <div class="tabs-wrapper">
@@ -261,6 +266,7 @@
             </div>
     </div>
 </section>
+{% endcomment %}
 
 
 <section class="products-popular page-section">
