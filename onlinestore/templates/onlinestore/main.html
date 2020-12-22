@@ -1,5 +1,6 @@
 {% extends 'onlinestore/base.html' %}
 {% load static %}
+{% load onlinestore_tags %}
 
 {% block title %}Онлайн магазин{% endblock title %}
 
@@ -110,6 +111,8 @@
 
 <section class="products page-section">
     <div class="container">
+        {% product_slider popular_products 'Популярные товары' %}
+        {% comment %}
         <div class="products__inner">
             <h3 class="product__title">Популярные товары</h3>
             <div class="product-slider">
@@ -135,7 +138,9 @@
                     </div>
                 {% endfor %}
             </div>
-            {% comment %}
+        </div>
+        {% endcomment %}
+        {% comment %}
             <div class="tabs-wrapper">
                 <div class="tabs products__tabs mobile-overflow">
                     <a class="tab products__tab tab--active" href="#product-tab-1">запчасти</a>
@@ -146,8 +151,6 @@
                     <a class="tab products__tab" href="#product-tab-6">аксессуары </a>
                 </div>
             </div>
-            {% endcomment %}
-            {% comment %}
             <div class="tabs-container products__container">
                 <div id="product-tab-1" class="tabs-content products__content tabs-content--active">
                     <div class="product-slider">
@@ -347,9 +350,7 @@
                     slider-6
                 </div>
             </div>
-            {% endcomment %}
         </div>
-        {% comment %}
         <div class="product__more">
             <a href="#" class="product__more-link">Показать еще</a>
         </div>

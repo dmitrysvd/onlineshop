@@ -57,6 +57,8 @@ def product_detail(request, product_id):
                                 pk=product_id)
     cart = Cart(request)
     product_is_in_cart = cart.contains(product)
+    popular_products = Product.objects.order_by('-popularity')[:8]
     context = {'product': product,
-               'is_in_cart': product_is_in_cart}
+               'is_in_cart': product_is_in_cart,
+               'popular_products': popular_products}
     return render(request, 'onlinestore/product_detail.html', context=context)

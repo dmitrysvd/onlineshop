@@ -1,5 +1,6 @@
 {% extends 'onlinestore/base.html' %}
 {% load static %}
+{% load onlinestore_tags %}
 
 {% block title %}{{ product.name }}{% endblock title %}
 
@@ -271,6 +272,8 @@
 
 <section class="products-popular page-section">
     <div class="container">
+        {% product_slider popular_products 'Популярные товары'%}
+        {% comment %}
         <div class="products__inner">
             <h3 class="product__title">С этим товаром покупают</h3>
             <div class="tabs-wrapper">
@@ -614,6 +617,7 @@
                 </div>
             </div>
         </div>
+        {% endcomment %}
     </div>
 </section>
 
