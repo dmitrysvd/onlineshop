@@ -12,4 +12,7 @@ urlpatterns = [
     path('product/<int:product_id>/',
          views.product_detail,
          name='product_detail'),
+    path('search/<str:option>',
+         views.search,
+         name='search')
 ]

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponseNotFound
 from .models import Category, Product
 from .filters import ProductFilter
 from cart.cart import Cart
@@ -62,3 +63,33 @@ def product_detail(request, product_id):
                'is_in_cart': product_is_in_cart,
                'popular_products': popular_products}
     return render(request, 'onlinestore/product_detail.html', context=context)
+
+
+def search(request, option):
+    if 'query' not in request.GET:
+        return HttpResponseNotFound()
+
+    query = request.GET.get('query', '')
+    products = Product.objects.all()
+
+    if option == 'brand':
+        products = products.filter(brand__name__icontains=query)
+        query_text = 'Марка: ' + query
+    elif option == 'name':
+        products = products.filter(name__icontains=query)
+        query_text = 'Название: ' + query
+    else:
+        return HttpResponseNotFound()
+
+    # pagination
+    paginator = Paginator(products, 12)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    context = {'page_obj': page_obj, 'query_text': query_text}
+    return render(request, 'onlinestore/search.html', context=context)
