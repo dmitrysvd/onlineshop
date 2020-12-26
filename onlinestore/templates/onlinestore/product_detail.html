@@ -31,7 +31,7 @@
     <div class="container">
         <div class="product-card__inner">
             <div class="product-card__img-box {% if product.sale %}product-item--sale{% endif %}">
-                <img class="product-card__img" src="{{ product.image.url }}" alt="" >
+                <img class="product-card__img" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}" alt="" >
                 {% if product.sale %}
                     <p class="product-card__price-old">{{ product.price }} ₽</p>
                 {% endif %}

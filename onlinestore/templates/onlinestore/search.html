@@ -27,7 +27,7 @@
                         </a>
                         <a  class="product-item {% if product.sale %}product-item--sale{% endif %}" href="{{ product.get_absolute_url }}">
                             <p class="product-item__hover-text">посмотреть товар</p>
-                            <img class="product-item__img" src="{{ product.image.url }}" alt="">
+                            <img class="product-item__img" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}" alt="">
                             <h4 class="product-item__title">{{ product.name }}</h4>
                             <p class="price product-item__price">{{ product.current_price }} ₽</p>
                             <p class="product-item__notify-text">нет в наличии</p>
