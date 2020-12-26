@@ -83,6 +83,9 @@ class Product(models.Model):
 
     @property
     def current_price(self):
+        '''
+        Return the current price taking into accout a discount
+        '''
         return self.discount_price if self.sale else self.price
 
     class Meta:
