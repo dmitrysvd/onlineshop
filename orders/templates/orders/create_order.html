@@ -14,10 +14,13 @@
       </li>
     {% endfor %}
   </ul>
+  <span>Сумма заказа {{ cart.get_total_price }} ₽</span>
 
   <form method="post">
-    {{ form.as_p }}
-    <p><input type="submit" value="Оформить заказ"></p>
+    <table>
+    {{ form.as_table }}
+    </table>
+    <button type="submit">Оформить заказ</button>
     {% csrf_token %}
   </form>
 {% endblock content %}

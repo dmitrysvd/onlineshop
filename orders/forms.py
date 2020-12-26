@@ -10,3 +10,11 @@ class OrderCreateForm(forms.ModelForm):
             'first_name', 'last_name', 'email',
             'address', 'postal_code', 'city',
         ]
+        labels = {
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+            'email': 'Электронная почта',
+            'address': 'Адрес',
+            'postal_code': 'Почтовый индекс',
+            'city': 'Город',
+        }
