@@ -372,6 +372,8 @@
                             <p class="product-item__notify-text">нет в наличии</p>
                         </a>
                     </div>
+                {% empty %}
+                    <h2>Ничего не найдено</h2>
                 {% endfor %}
 
                 {% if page_obj.has_other_pages %}
