@@ -6,8 +6,7 @@ from django.urls import reverse
 class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(blank=True,
-                              upload_to='images/categories/')
+    image = models.ImageField(upload_to='images/categories/')
 
     class Meta:
         ordering = ('name',)
@@ -83,6 +82,9 @@ class Product(models.Model):
 
     @property
     def current_price(self):
+        '''
+        Return the current price taking into accout a discount
+        '''
         return self.discount_price if self.sale else self.price
 
     class Meta:

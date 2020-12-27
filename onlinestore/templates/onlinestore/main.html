@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <img class="sale-item__img" src="{{ sale_item.image.url }}" alt="" >
+                    <img class="sale-item__img" src="{% if sale_item.image %}{{ sale_item.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}" alt="" >
                     <h5 class="sale-item__title">{{ sale_item.name }}</h5>
                 <div class="sale-item__footer">
                     Акция действует до
