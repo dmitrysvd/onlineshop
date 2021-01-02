@@ -29,23 +29,67 @@ def create_products(count, category=None):
     return products
 
 
+class CategoryModelsTests(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name='test category',
+                                                slug='test-category',
+                                                image='test-image')
+
+    def test_category_fields(self):
+        self.assertEqual(self.category.name, 'test category')
+        self.assertEqual(self.category.slug, 'test-category')
+        self.assertEqual(self.category.image, 'test-image')
+
+
 class ProductModelTests(TestCase):
 
     def setUp(self):
-        self.category = Category()
-        self.category.save()
+        self.category = Category.objects.create(name='test category',
+                                                slug='test-category')
+        self.product = Product.objects.create(name='Test product',
+                                              price=100,
+                                              slug='test-product',
+                                              popularity=0.1,
+                                              category=self.category,
+                                              model_name='test',
+                                              engine_power=100,
+                                              engine_type='gas',
+                                              number_of_seats=1,
+                                              year_of_issue=2017)
+
+    def test_binded_category(self):
+        self.assertEqual(self.product.category.name, 'test category')
+
+    def test_product_properties(self):
+        self.assertEqual(self.product.name, 'Test product')
+        self.assertEqual(self.product.price, 100)
+        self.assertEqual(self.product.slug, 'test-product')
+        self.assertEqual(self.product.popularity, 0.1)
+        self.assertEqual(self.product.category, self.category)
+        self.assertEqual(self.product.model_name, 'test')
+        self.assertEqual(self.product.engine_power, 100)
+        self.assertEqual(self.product.engine_type, 'gas')
+        self.assertEqual(self.product.number_of_seats, 1)
+        self.assertEqual(self.product.year_of_issue, 2017)
 
     def test_current_price_not_no_discount(self):
-        product = Product(price=1000)
-        self.assertEqual(product.current_price, 1000)
+        self.product.price = 1000
+        self.product.save()
+        self.assertEqual(self.product.current_price, 1000)
 
     def test_current_price_discount_defined_but_sale_is_false(self):
-        product = Product(price=1000, discount_price=800, sale=False)
-        self.assertEqual(product.current_price, 1000)
+        self.product.price = 1000
+        self.product.discount_price = 800
+        self.product.sale = False
+        self.product.save()
+        self.assertEqual(self.product.current_price, 1000)
 
     def test_current_price_discount_defined_and_sale_is_true(self):
-        product = Product(price=1000, discount_price=800, sale=True)
-        self.assertEqual(product.current_price, 800)
+        self.product.price = 1000
+        self.product.discount_price = 800
+        self.product.sale = True
+        self.product.save()
+        self.assertEqual(self.product.current_price, 800)
 
 
 class MainViewTests(TestCase):
@@ -104,6 +148,13 @@ class MainViewTests(TestCase):
                          product_with_discount)
 
 
+class BrandModelTests(TestCase):
+
+    def test_brand_fields(self):
+        brand = Brand.objects.create(name='my brand')
+        self.assertEqual(brand.name, 'my brand')
+
+
 class ProductListViewTests(TestCase):
 
     def setUp(self):
@@ -113,12 +164,13 @@ class ProductListViewTests(TestCase):
 
     def test_no_products(self):
         response = self.client.get(self.category.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'test_category')
         self.assertContains(response, 'не найдено')
 
     def test_products_amount_eq_max(self):
-        products = create_products(
-            count=self.max_products_per_page, category=self.category)
+        products = create_products(count=self.max_products_per_page,
+                                   category=self.category)
         response = self.client.get(self.category.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         page_obj = response.context['page_obj']
