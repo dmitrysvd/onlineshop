@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import OrderItem
 from .forms import OrderCreateForm
+from .tasks import send_email_about_order
 from cart.cart import Cart
 
 
@@ -16,6 +17,7 @@ def create_order(request):
                                          price=item['price'],
                                          quantity=item['quantity'])
             cart.clear()
+            send_email_about_order.delay(order.id)
             return redirect('orders:order_created')
     else:
         form = OrderCreateForm()
