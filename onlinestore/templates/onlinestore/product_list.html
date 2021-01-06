@@ -1,407 +1,76 @@
 {% extends 'onlinestore/base.html' %}
 {% load static %}
+{% load onlinestore_tags %}
 {% load widget_tweaks %}
 
 {% block title %}{{ category.name }}{% endblock title %}
 
 {% block content %}
 
-<div class="breadcrumbs">
-    <div class="container">
-        <div class="breadcrumbs__inner">
-        <ul class="breadcrumbs__list mobile-overflow">
-            <li class="breadcrumbs__list-item">
-                <a href="{% url 'onlinestore:main' %}">Главная</a>
+<nav class="pt-5" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'onlinestore:main' %}">Главная</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+           {{ category.name }}
+        </li>
+    </ol>
+</nav>
+
+<div class="container pt-5">
+    <h2 class="fw-bold pb-3">
+        {{ category.name }}
+    </h2>
+
+    <div class="row row-cols-1 row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 g-4">
+    {% for product in page_obj %}
+        
+        <div class="col">
+        {% product_item product %}
+        </div>
+    {% empty %}
+        <h2>Ничего не найдено</h2>
+    {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <nav class="py-5" aria-label="Page navigation">
+        <ul class="pagination pagination-lg justify-content-center">
+
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
             </li>
-            <li class="breadcrumbs__list-item">
-                <span>{{ category.name }}</span>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
+        {% endif %}
+
+        {% for page_num in page_obj.paginator.page_range %}
+            {% if page_num == page_obj.number %}
+                <li class="page-item disabled"><a class="page-link" href="#">{{ page_num }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+        {% endif %}
+
         </ul>
-        </div>
-    </div>
+    </nav>
+    {% endif %}
+    <!-- Pagination end -->
 </div>
-
-<section class="catalog">
-    <div class="container">
-        <h2 class="catalog__title">
-            {{ category.name }}
-        </h2>
-        <div class="catalog__filter">
-            <div class="catalog__filter-iteminner">
-            {% comment %}
-            <div class="catalog__filter-item mobile-overflow">
-                <button>Полноприводные</button>
-                <button>от 5000</button>
-                <button>BRP</button>
-                <button>еще</button>
-            </div>
-            {% endcomment %}
-            </div>
-            <div class="catalog__filter-btn">
-                <form action="" method="GET">
-                    <!--{% csrf_token %}-->
-                    <select class="filter-style select-item" name="sort" onchange="this.form.submit()">
-                        <option value="popularity" {% if sort_option == 'popularity' %}selected{% endif %}>По полулярности</option>
-                        <option value="price" {% if sort_option == 'price' %}selected{% endif %}>По цене</option>
-                    </select>
-                </form>
-                <button class="catalog__filter-btngrid catalog__filter-button catalog__filter-button--active">
-                    <svg width="23" height="21" viewBox="0 0 23 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="1" y="1" width="21" height="19" stroke="#2F3035" stroke-width="2"/>
-                        <rect x="7" y="6" width="2" height="2" fill="#2F3035" stroke="#2F3035" stroke-width="2"/>
-                        <rect x="7" y="13" width="2" height="2" fill="#2F3035" stroke="#2F3035" stroke-width="2"/>
-                        <rect x="14" y="6" width="2" height="2" fill="#2F3035" stroke="#2F3035" stroke-width="2"/>
-                        <rect x="14" y="13" width="2" height="2" fill="#2F3035" stroke="#2F3035" stroke-width="2"/>
-                    </svg>
-
-                </button>
-                <button class="catalog__filter-btnline catalog__filter-button">
-                    <svg width="25" height="19" viewBox="0 0 25 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g opacity="1">
-                            <rect x="6" width="19" height="3" rx="1.5" fill="#2F3035"/>
-                            <rect x="6" y="8" width="19" height="3" rx="1.5" fill="#2F3035"/>
-                            <rect x="6" y="16" width="19" height="3" rx="1.5" fill="#2F3035"/>
-                            <rect width="3" height="3" rx="1.5" fill="#2F3035"/>
-                            <rect y="8" width="3" height="3" rx="1.5" fill="#2F3035"/>
-                            <rect y="16" width="3" height="3" rx="1.5" fill="#2F3035"/>
-                        </g>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="catalog__inner">
-            <div class="aside__btn">Фильтр</div>
-            <div class="catalog__inner-aside aside-filter">
-                <div class="tabs-wrapper tabs-wrapper--no-scroll">
-                    <div class="tabs aside-filter__tabs">
-                        <a class="tab tab--active aside-filter__tab" href="#filter-1-1">
-                            <span>Параметры</span>
-                        </a>
-                        <a class="tab aside-filter__tab" href="#filter-1-2">
-                            <span>Фильтр</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="tabs-container">
-                    <div id="filter-1-1" class="tabs-content aside-filter__tabs-content tabs-content--active">
-                        <form class="aside-filter__form" method="GET" action="">
-                            <ul class="aside-filter__list">
-                                <li class="aside-filter__item-drop">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Наличие</p>
-                                    <div class="aside-filter__content">
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                В наличие
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                Под заказ
-                                            </label>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="aside-filter__item-drop">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Новинки</p>
-                                    <div class="aside-filter__content aside-filter__content-radio">
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" name="radio" type="radio">
-                                                Все
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" name="radio" type="radio">
-                                                Новинки
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" name="radio" type="radio">
-                                                Акции
-                                            </label>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="aside-filter__item-drop">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Цена</p>
-                                    <div class="aside-filter__content">
-                                        <div class="range-slider">
-                                            <input type="text" class="js-range-slider" name="my_range" value=""
-                                                   data-min="0"
-                                                   data-max="1500000"
-                                                   data-from="100000"
-                                                   data-to="500000"
-                                            />
-                                            <div class="extra-controls">
-                                                <label class="js-input-from-label">
-                                                    от
-                                                    <input type="text" class="js-input-from" value="0"/>
-                                                </label>
-                                                <label class="js-input-to-label">
-                                                    до
-                                                    <input type="text" class="js-input-to" value="0"/>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="aside-filter__item-list">
-                                    <div class="filter__item-list">
-                                        <p class="filter__item-listtitle">
-                                            Мощность, л.с.
-                                        </p>
-                                        <select class="filter-style filter__item-listselect">
-                                            <option>90</option>
-                                            <option>130</option>
-                                            <option>154</option>
-                                            <option>230</option>
-                                            <option>300</option>
-                                        </select>
-                                    </div>
-                                    <div class="filter__item-list">
-                                        <p class="filter__item-listtitle">
-                                            Мощность двигателя, л.с.
-                                        </p>
-                                        <select class="filter-style filter__item-listselect">
-                                            <option>90</option>
-                                            <option>130</option>
-                                            <option>154</option>
-                                            <option>230</option>
-                                            <option>300</option>
-                                        </select>
-                                    </div>
-                                    <div class="filter__item-list">
-                                        <p class="filter__item-listtitle">
-                                            Макс. скорость
-                                        </p>
-                                        <select class="filter-style filter__item-listselect">
-                                            <option>90</option>
-                                            <option>130</option>
-                                            <option>154</option>
-                                            <option>230</option>
-                                            <option>300</option>
-                                        </select>
-                                    </div>
-                                </li>
-
-
-                                <li class="aside-filter__item-drop">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Бренд</p>
-                                    <div class="aside-filter__content">
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox" checked>
-                                                BRP
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox" checked>
-                                                Spark 2
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                Spark 3
-                                            </label>
-                                        </div>
-                                        <div class="filter-more">
-                                            <button class="filter-more__btn" href="#">
-                                                Показать еще
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
-
-
-                                <li class="aside-filter__item-drop">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Модель</p>
-                                    <div class="aside-filter__content">
-                                        <input class="filter-search" type="text">
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                Sea-doo Spark 2
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                SeaDoo Spark 90
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                SeaDoo GTI 155
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                SeaDoo GTR 230
-                                            </label>
-                                        </div>
-                                        <div class="filter-more">
-                                            <button class="filter-more__btn" href="#">
-                                                Показать еще
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
-
-
-                                <li class="aside-filter__item-drop btn__checked">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        Акции</p>
-                                    <div class="aside-filter__content">
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                <span class="btn__checked__text">SALE</span>
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                <span class="btn__checked__text">NEW</span>
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                <span class="btn__checked__text">HIT</span>
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                <span class="btn__checked__text">ДИЛЕР</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </li>
-
-
-                                <li class="aside-filter__item-drop">
-                                    <p class="aside-filter__item-title filter__item-drop filter__item-drop--active">
-                                        {{ filter.form.fields.manufacturer_country.label }}</p>
-                                    <div class="aside-filter__content">
-                                        {% for choice in filter.form.fields.manufacturer_country.choices %}
-                                            <div class="aside-filter__content-box">
-                                                <label class="aside-filter__content-label">
-                                                    <input class="filter-style" type="checkbox" checked>
-                                                    {{ choice }}
-                                                </label>
-                                            </div>
-                                        {% endfor %}
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox" checked>
-                                                Россия
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox" checked>
-                                                Германия
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                Китай
-                                            </label>
-                                        </div>
-                                        <div class="aside-filter__content-box">
-                                            <label class="aside-filter__content-label">
-                                                <input class="filter-style" type="checkbox">
-                                                CША
-                                            </label>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="aside-filter__item-drop aside-filter__item-btn">
-                                    <button class="filter-btn__send filter-btn__send--active">ВЫБРАТЬ</button>
-                                    <p class="filter-extra">Дополнительные параметры</p>
-                                    <div class="filter-extra__content"> more</div>
-                                    <button class="filter-btn__reset">Сбросить фильтр</button>
-                                </li>
-                            </ul>
-
-                        </form>
-                    </div>
-                    <div id="filter-1-2" class="tabs-content aside-filter__tabs-content">
-                        <form method="get">
-                            {{ filter.form.as_ul }}
-                            <button type="submit" class="filter-btn__send filter-btn__send--active">ВЫБРАТЬ</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="catalog__inner-list">
-                {% for product in page_obj %}
-                    
-                    <div class="product-item__wrapper {% if not product.available %}product-item__not-available{% endif %}">
-                        <button class="product-item__favorite">
-                        </button>
-                        <button class="product-item__basket">
-                            <img src="{% static 'onlinestore/images/basket-white.svg' %}" alt="">
-                        </button>
-                        <a href="" class="product-item__notify-link">
-                            <span>Сообщить о поступлении</span>
-                        </a>
-                        <a  class="product-item {% if product.sale %}product-item--sale{% endif %}" href="{{ product.get_absolute_url }}">
-                            <p class="product-item__hover-text">посмотреть товар</p>
-                            <img class="product-item__img" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}" alt="">
-                            <h4 class="product-item__title">{{ product.name }}</h4>
-                            <p class="price product-item__price">{{ product.current_price }} ₽</p>
-                            <p class="product-item__notify-text">нет в наличии</p>
-                        </a>
-                    </div>
-                {% empty %}
-                    <h2>Ничего не найдено</h2>
-                {% endfor %}
-
-                {% if page_obj.has_other_pages %}
-                    <div class="pagination">
-                        <ul class="pagination-list">
-
-                            {% if page_obj.has_previous %}
-                                <li class="pagination-list__item"><a href="?page={{ page_obj.previous_page_number }}">Предыдующая страница</a></li>
-                            {% endif %}
-
-                            {% for page_num in page_obj.paginator.page_range %}
-                                {% if page_num == page_obj.number %}
-                                    <li class="pagination-list__item active">{{ page_obj.number }}</li>
-                                {% else %}
-                                    <li class="pagination-list__item"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if page_obj.has_next %}
-                                <li class="pagination-list__item"><a href="?page={{ page_obj.next_page_number }}">Следующая страница</a></li>
-                            {% endif %}
-
-                        </ul>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</section>
 
 {% endblock content %}

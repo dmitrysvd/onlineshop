@@ -4,56 +4,67 @@
 {% block title %}Корзина{% endblock title %}
 
 {% block content %}
-<h1>Ваша корзина</h1>
-  <table>
-     <thead>
-       <tr>
-         <th>Изображение</th>
-         <th>Товар</th>
-         <th>Количество</th>
-         <th>Удалить</th>
-         <th>Цена за 1 шт.</th>
-         <th>Общая цена</th>
-       </tr>
-     </thead>
-     <tbody>
-        {% for item in items %}
-          {% with product=item.product %}
+
+<h2 class="py-4">Ваша корзина</h2>
+
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
             <tr>
-              <td>
-                <a href="{{ product.get_absolute_url }}">
-                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no_product_image.png' %}{% endif %}" width=50 height=50>
-                </a>
-              </td>
-              <td>{{ product.name }}</td>
-              <td>
-                <!--{{ item.quantity }}-->
-                <form action="{% url "cart:cart_update" product.id %}" method="post">
-                  {{ item.update_quantity_form.quantity }}
-                  <input type="submit" value="Обновить">
-                  {% csrf_token %}
-                </form>
-              </td>
-              <td>
-                <form action="{% url "cart:cart_remove" product.id %}" method="post">
-                  <input type="submit" value="Удалить">
-                  {% csrf_token %}
-                </form>
-              </td>
-              <td>{{ item.price }}</td>
-              <td>{{ item.total_price }}</td>
+                <th>Изображение</th>
+                <th>Товар</th>
+                <th>Количество</th>
+                <th>Удалить</th>
+                <th>Цена за 1 шт.</th>
+                <th>Общая цена</th>
             </tr>
-          {% endwith %}
-        {% endfor %}
-        <tr>
-          <td>Сумма</td>
-          <td colspan="4"></td>
-          <td>{{ cart.get_total_price }}</td>
-        </tr>
-     </tbody>
-  </table>
-  <p>
-    <a href="{% url 'onlinestore:main' %}">Вернуться в магазин</a>
-    <a href="{% url 'orders:create_order' %}">Оформить заказ</a>
-  </p>
+        </thead>
+        <tbody>
+                {% for item in items %}
+                    {% with product=item.product %}
+                        <tr>
+                            <td>
+                                <a href="{{ product.get_absolute_url }}">
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no_product_image.png' %}{% endif %}" width=50 height=50>
+                                </a>
+                            </td>
+                            <td>{{ product.name }}</td>
+                            <td>
+                                <form action="{% url "cart:cart_update" product.id %}" method="post">
+                                    {{ item.update_quantity_form.quantity }}
+                                    <button type="submit" class="btn btn-outline-primary">Обновить</button>
+                                    {% csrf_token %}
+                                </form>
+                            </td>
+                            <td>
+                                <form action="{% url "cart:cart_remove" product.id %}" method="post">
+                                    <button type="submit" class="btn btn-outline-primary">Удалить</button>
+                                    {% csrf_token %}
+                                </form>
+                            </td>
+                            <td>{{ item.price }}</td>
+                            <td>{{ item.total_price }}</td>
+                        </tr>
+                    {% endwith %}
+                {% endfor %}
+                <tr>
+                    <td>Сумма</td>
+                    <td colspan="4"></td>
+                    <td>{{ cart.get_total_price }}</td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container py-5 d-flex justify-content-start">
+    <div class="row text-nowrap">
+        <div class="col">
+            <a href="{% url 'onlinestore:main' %}" class="btn btn-primary">Вернуться в магазин</a>
+        </div>
+        <div class="col">
+            <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Оформить заказ</a>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}

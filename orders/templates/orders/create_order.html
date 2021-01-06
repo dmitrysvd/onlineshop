@@ -5,22 +5,22 @@
 {% endblock title %}
 
 {% block content %}
-  <h3>Ваш заказ</h3>
-  <ul>
-    {% for item in cart %}
-      <li>
-        {{ item.quantity }}x {{ item.product.name }}
-        <span>{{ item.total_price }}</span>
-      </li>
-    {% endfor %}
-  </ul>
-  <span>Сумма заказа {{ cart.get_total_price }} ₽</span>
+    <h3>Ваш заказ</h3>
+    <ul>
+        {% for item in cart %}
+            <li>
+                {{ item.quantity }}x {{ item.product.name }}
+                <span>{{ item.total_price }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <p class="py-1">Сумма заказа {{ cart.get_total_price }} ₽</p>
 
-  <form method="post">
-    <table>
-    {{ form.as_table }}
-    </table>
-    <button type="submit">Оформить заказ</button>
-    {% csrf_token %}
-  </form>
+    <form method="post">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <button class="btn btn-primary" type="submit">Оформить заказ</button>
+        {% csrf_token %}
+    </form>
 {% endblock content %}

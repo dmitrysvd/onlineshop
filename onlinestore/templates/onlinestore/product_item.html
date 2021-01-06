@@ -1,0 +1,18 @@
+{% load static %}
+
+<div class="card h-100 shadow-sm">
+    <img class="card-img-top img-fluid align-self-center" style="width: 13rem;" alt="Product image"
+            src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
+    <div class="card-body">
+        <h4 class="card-title">{{ product.name }}</h4>
+        <h5 class="card-subtitle">{{ product.current_price }} ₽
+            {% if product.sale %}
+            <span class="badge bg-primary">Sale</span>
+            {% endif %}
+        </h5>
+        {% if not product.available %}
+        <p class="text-muted fst-italic">Not available now</p>
+        {% endif %}
+        <a href="{{ product.get_absolute_url }}" class="stretched-link"></a>
+    </div>
+</div>

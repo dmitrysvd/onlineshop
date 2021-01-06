@@ -7,251 +7,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Document{% endblock title %}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/fonts.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/slick.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/ion.rangeSlider.min.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/jquery.rateyo.min.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/jquery.formstyler.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/jquery.formstyler.theme.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'onlinestore/css/media.css' %}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
+
 <header class="header">
-    <div class="header__top">
-        <div class="container">
-            <div class="header__top-inner">
-                <nav class="menu">
-                    <button class="menu__btn">
-                        <div class="menu__btn-line"></div>
-                        <div class="menu__btn-line"></div>
-                        <div class="menu__btn-line"></div>
-                    </button>
-                    <ul class="menu__list">
-                        <li class="menu__item">
-                            <a class="menu__link" href="#">Магазины</a>
-                        </li>
-                        <li class="menu__item">
-                            <a class="menu__link" href="#">Акции</a>
-                        </li>
-                        <li class="menu__item">
-                            <a class="menu__link" href="#">Доставка и оплата</a>
-                        </li>
-                    </ul>
-                </nav>
-                <a  class="logo" href="{% url 'onlinestore:main' %}">
-                    <img class="logo__img" src="{% static 'onlinestore/images/logo.svg' %}" alt="">
-                </a>
-                <div class="header__box">
-                    <div class="header__address">
-                        Москва, ул. Науки 25
-                    </div>
-                    <ul class="user-list">
-                        <li class="user-list__item">
-                            <a  class="user-list__link" href="#"></a>
-                            <img src="{% static 'onlinestore/images/heart.svg' %}" alt="">
-                        </li>
-                        <li class="user-list__item">
-                            <a  class="user-list__link" href="#"></a>
-                            <img src="{% static 'onlinestore/images/user.svg' %}" alt="">
-                        </li>
-                        <li class="user-list__item">
-                            <a class="user-list__link basket" href="{% url 'cart:cart_detail' %}">
-                                <img src="{% static 'onlinestore/images/basket.svg' %}" alt="">
-                                {% with cart.get_total_quantity as cart_total_quantity %}
-                                    {% if cart_total_quantity > 0 %}
-                                        <p class="basket__num">{{ cart_total_quantity }}</p>
-                                    {% endif %}
-                                {% endwith %}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'onlinestore:main' %}">
+                <img src="{% static 'onlinestore/images/logo.svg' %}" alt="Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'onlinestore:main' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart:cart_detail' %}">
+                        Cart <i class="bi bi-cart2"></i>
+                        {% with cart.get_total_quantity as cart_total_quantity %}
+                            {% if cart_total_quantity > 0 %}
+                                <span class="badge bg-secondary">{{ cart_total_quantity }}</span>
+                            {% endif %}
+                        {% endwith %}
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
+
+    <div class="container pt-3">
+        <ul class="nav nav-fill justify-content-center bg-light">
+            {% for category in categories %}
+            <li class="nav-item">
+                <a class="nav-link link-dark" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 
-    <ul class="menu-mobile__list ">
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/user.svg' %}" alt="">
-                <p>Войти </p></a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/user.svg' %}" alt="">
-                <p>Регистрация</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/heart.svg' %}" alt="">
-                <p>Избранное</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/basket.svg' %}" alt="">
-                <p>Корзина</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/house.svg' %}" alt="">
-                <p>Магазины</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/procent.svg' %}" alt="">
-                <p>Акции</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <img class="menu-mobile__img" src="{% static 'onlinestore/images/box.svg' %}" alt="">
-                <p>а и оплата</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <p>Квадроциклы</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                <p>Катера</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a  class="menu-mobile__link" href="#">
-                <p>Гидроциклы</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                 <p>Лодки </p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a  class="menu-mobile__link" href="#">
-                 <p>Вездеходы</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                 <p>Снегоходы</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                 <p>Двигатели</p>
-            </a>
-        </li>
-        <li class="menu-mobile__item">
-            <a class="menu-mobile__link" href="#">
-                 <p>Запчасти</p>
-            </a>
-        </li>
-    </ul>
-
-    <div class="menu__mobile-linewrapper">
-        <div class="menu__mobile-line">
-            <li class="menu__item">
-                <a class="menu__link" href="#">Магазины</a>
-            </li>
-            <li class="menu__item">
-                <a class="menu__link" href="#">Акции</a>
-            </li>
-            <li class="menu__item">
-                <a class="menu__link" href="#">Доставка и оплата</a>
-            </li>
-        </div>
-    </div>
-
-    <div class="header__bottom">
-        <div class="container">
-            <ul class="menu-categories">
-                {% for category in categories %}
-                    <li class="menu-categories__item">
-                        <a class="menu-categories__link" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
 </header>
 
-{% block content %}
-{% endblock content %}
-
-<footer class="footer">
+<main>
     <div class="container">
-        <div class="footer__top">
-            <div class="footer__top-inner">
-                <div class="footer__top-item footer__top-newslatter">
-                    <h6 class="footer__top-title ">
-                        Подпишитесь на нашу рассылку и узнавайте о акциях быстрее
-                    </h6>
-                    <form class="footer-form">
-                        <input class="footer-form__input" type="text" placeholder="Введите ваш e-mail:">
-                        <button class="footer-form__btn" type="submit">Отправить</button>
-                    </form>
-                </div>
-                <div class="footer__top-item footer__top-itemdrop">
-                    <h6 class="footer__top-title footer__topdrop">
-                        Информация
-                    </h6>
-                    <ul class="footer-list ">
-                        <li class="footer-list__item"><a href="#"> О компании</a></li>
-                        <li class="footer-list__item"><a href="#">Контакты</a></li>
-                        <li class="footer-list__item"><a href="#">Акции</a></li>
-                        <li class="footer-list__item"><a href="#">Магазины</a></li>
-                    </ul>
-                </div>
-                <div class="footer__top-item footer__top-itemdrop">
-                    <h6 class="footer__top-title footer__topdrop">
-                        Интернет-магазин
-                    </h6>
-                    <ul class="footer-list">
-                        <li class="footer-list__item"><a href="#"> Доставка и самовывоз</a></li>
-                        <li class="footer-list__item"><a href="#">Оплата</a></li>
-                        <li class="footer-list__item"><a href="#">Возврат-обмен</a></li>
-                        <li class="footer-list__item"><a href="#">Новости</a></li>
-                    </ul>
-                </div>
-                <div class="footer__top-item footer__top-social">
-                    <ul class="social-list">
-                        <li class="social-list__item">
-                            <a href="#"><img src="{% static 'onlinestore/images/instagram.svg' %}" alt=""></a>
-                        </li>
-                        <li class="social-list__item">
-                            <a href="#"><img src="{% static 'onlinestore/images/vk.svg' %}" alt=""></a>
-                        </li>
-                        <li class="social-list__item">
-                            <a href="#"><img src="{% static 'onlinestore/images/facebook.svg' %}" alt=""></a>
-                        </li>
-                        <li class="social-list__item">
-                            <a href="#"><img src="{% static 'onlinestore/images/youtube.svg' %}""" alt=""></a>
-                        </li>
-                    </ul>
+        {% block content %}
+        {% endblock content %}
+    </div>
+</main>
+
+<footer class="footer bg-light mt-3">
+    <div class="container bg-light">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="fw-bold">Подпишитесь на нашу рассылку и узнавайте об акциях первыми</p>
+                <form class="d-flex" method="post">
+                    <input class="form-control me-2 bg-light" name="email" type="text" placeholder="Введите ваш e-mail">
+                    <button class="btn btn-outline-success" type="submit">Подписаться</button>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <p class="fw-bold">Информация</p>
+                <ul>
+                    <li><a href="#">О компании</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Акции</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <p class="fw-bold">Интернет-магазин</p>
+                <ul>
+                    <li><a href="#">Доставка и самовывоз</a></li>
+                    <li><a href="#">Оплата</a></li>
+                    <li><a href="#">Новости</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 d-flex">
+                <div class="row align-self-center">
+                    <div class="col">
+                        <a href="#"><img src="{% static 'onlinestore/images/instagram.svg' %}" alt=""></a>
+                    </div>
+                    <div class="col">
+                        <a href="#"><img src="{% static 'onlinestore/images/vk.svg' %}" alt=""></a>
+                    </div>
+                    <div class="col">
+                        <a href="#"><img src="{% static 'onlinestore/images/facebook.svg' %}" alt=""></a>
+                    </div>
+                    <div class="col">
+                        <a href="#"><img src="{% static 'onlinestore/images/youtube.svg' %}" alt=""></a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="footer__bottom">
-            <a class="footer__bottom-link" href="#">Договор оферты</a>
-            <a class="footer__bottom-link" href="#">Политика обработки персональных данных</a>
+        <div class="container d-flex justify-content-center pb-4">
+            <div class="row">
+                <div class="col">
+                    <a href="#" class="text-muted"><sub>Договор оферты</sub></a>
+                </div>
+                <div class="col">
+                    <a href="#" class="text-muted text-nowrap"><sub class="">Политика обработки персональных данных</sub></a>
+                </div>
+            </div>
         </div>
     </div>
 </footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="{% static 'onlinestore/js/slick.min.js' %}"></script>
-<script src="{% static 'onlinestore/js/ion.rangeSlider.min.js' %}"></script>
-<script src="{% static 'onlinestore/js/jquery.formstyler.min.js' %}"></script>
-<script src="{% static 'onlinestore/js/jquery.rateyo.min.js' %}"></script>
-<script src="{% static 'onlinestore/js/main.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>
