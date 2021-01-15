@@ -14,9 +14,9 @@
 
 <header class="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
+        <div class="container-fluid px-md-5">
             <a class="navbar-brand" href="{% url 'onlinestore:main' %}">
-                <img src="{% static 'onlinestore/images/logo.svg' %}" alt="Logo">
+                Online shop
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -50,7 +50,7 @@
         </div>
     </nav>
 
-    <div class="container pt-3">
+    <div class="container mt-3">
         <ul class="nav nav-fill justify-content-center bg-light">
             {% for category in categories %}
             <li class="nav-item">
@@ -69,7 +69,7 @@
     </div>
 </main>
 
-<footer class="footer bg-light mt-3">
+<footer class="footer bg-light mt-4 p-3">
     <div class="container bg-light">
         <div class="row">
             <div class="col-md-3">
@@ -112,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <div class="container d-flex justify-content-center pb-4">
+        <div class="container d-flex justify-content-center">
             <div class="row">
                 <div class="col">
                     <a href="#" class="text-muted"><sub>Договор оферты</sub></a>
