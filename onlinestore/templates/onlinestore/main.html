@@ -100,7 +100,14 @@
 </div>
 
 <div class="container pt-5">
-    {% include 'onlinestore/product_slider.html' with product_list=popular_products  title='Популярные товары'%}
+    <h2 class="pb-2">Популярные товары</h2>
+    <div class="row row-cols-1 row-cols-lg-4 row-cols-sm-2 g-4">
+        {% for product in popular_products|slice:":4" %}
+            <div class="col">
+            {% product_item product %}
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 <div class="container py-5">
