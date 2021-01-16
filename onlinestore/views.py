@@ -56,7 +56,7 @@ def product_list(request, category_slug):
 def product_detail(request, product_id):
     product = get_object_or_404(Product,
                                 pk=product_id)
-    cart = Cart(request)
+    cart = Cart(request.session)
     product_is_in_cart = cart.contains(product)
     popular_products = Product.objects.order_by('-popularity')[:8]
     context = {'product': product,

@@ -7,7 +7,7 @@ from .forms import ItemQuantityUpdateForm
 
 @require_POST
 def cart_add(request, product_id):
-    cart = Cart(request)
+    cart = Cart(request.session)
     product = get_object_or_404(Product, id=product_id)
     cart.add(product)
     return redirect('cart:cart_detail')
@@ -15,7 +15,7 @@ def cart_add(request, product_id):
 
 @require_POST
 def cart_update(request, product_id):
-    cart = Cart(request)
+    cart = Cart(request.session)
     product = get_object_or_404(Product, id=product_id)
     form = ItemQuantityUpdateForm(request.POST)
     if form.is_valid():
@@ -27,14 +27,14 @@ def cart_update(request, product_id):
 
 @require_POST
 def cart_remove(request, product_id):
-    cart = Cart(request)
+    cart = Cart(request.session)
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
     return redirect('cart:cart_detail')
 
 
 def cart_detail(request):
-    cart = Cart(request)
+    cart = Cart(request.session)
     items = [item for item in cart]
     for item in items:
         item['update_quantity_form'] = ItemQuantityUpdateForm(

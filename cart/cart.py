@@ -5,8 +5,8 @@ from onlinestore.models import Product
 
 class Cart:
 
-    def __init__(self, request):
-        self.session = request.session
+    def __init__(self, session):
+        self.session = session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
