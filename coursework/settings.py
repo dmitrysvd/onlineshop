@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import braintree
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -138,3 +139,16 @@ CART_SESSION_ID = 'cart'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# Braintree settings
+BRAINTREE_MERCHANT_ID = 'zfvjn2fkrhbbdf2w'
+BRAINTREE_PUBLIC_KEY = '4n4mvyxn9j3w6p4k'
+BRAINTREE_PRIVATE_KEY = '2a77a483842539cc2269e74968c4ad04'
+
+BRAINTREE_CONF = braintree.Configuration(
+    braintree.Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
