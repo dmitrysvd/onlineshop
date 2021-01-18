@@ -5,22 +5,37 @@
 {% endblock title %}
 
 {% block content %}
-    <h3>Ваш заказ</h3>
-    <ul>
-        {% for item in cart %}
-            <li>
-                {{ item.quantity }}x {{ item.product.name }}
-                <span>{{ item.total_price }}</span>
-            </li>
-        {% endfor %}
-    </ul>
-    <p class="py-1">Сумма заказа {{ cart.get_total_price }} ₽</p>
 
-    <form method="post">
-        <table>
+<div class="row g-4 my-5">
+    <div class="col-md-5 order-md-last">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Ваш заказ</span>
+            <span class="badge bg-secondary rounded-pill">{{ cart.get_total_quantity }}</span>
+        </h4>
+
+        <ul class="list-group">
+            {% for item in cart %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>{{ item.quantity }}x {{ item.product.name }}</span>
+                <span class="text-muted ms-2">{{ item.total_price }} ₽</span>
+            </li>
+            {% endfor %}
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Сумма заказа</span>
+                <span class="fw-bold ms-2">{{ cart.get_total_price }} ₽</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-md-7">
+        <form method="post">
+            <table>
             {{ form.as_table }}
-        </table>
-        <button class="btn btn-primary" type="submit">Оформить заказ</button>
-        {% csrf_token %}
-    </form>
+            </table>
+            <button class="btn btn-primary mt-2" type="submit">Подтвердить</button>
+            {% csrf_token %}
+        </form>
+    </div>
+</div>
+
 {% endblock content %}
