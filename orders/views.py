@@ -18,7 +18,8 @@ def create_order(request):
                                          quantity=item['quantity'])
             cart.clear()
             send_email_about_order.delay(order.id)
-            return redirect('orders:order_created')
+            request.session['order_id'] = order.id
+            return redirect('payment:process')
     else:
         form = OrderCreateForm()
 

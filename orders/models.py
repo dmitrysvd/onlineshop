@@ -9,8 +9,12 @@ class Order(models.Model):
     address = models.CharField(max_length=200)
     postal_code = models.CharField(max_length=20)
     city = models.CharField(max_length=100)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    braintree_id = models.CharField(max_length=150, blank=True)
+
     paid = models.BooleanField(default=False)
 
     class Meta:
@@ -37,5 +41,5 @@ class OrderItem(models.Model):
     def __str__(self):
         return f'{self.product.name} x{self.quantity}'
 
-    def get_total_price(self):
+    def get_cost(self):
         return self.price * self.quantity

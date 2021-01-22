@@ -61,9 +61,11 @@
         <div class="col">
             <a href="{% url 'onlinestore:main' %}" class="btn btn-primary">Вернуться в магазин</a>
         </div>
+        {% if items %}
         <div class="col">
             <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Оформить заказ</a>
         </div>
+        {% endif %}
     </div>
 </div>
 
