@@ -8,7 +8,7 @@ class OrderItemInLine(admin.TabularInline):
 
 
 @admin.register(Order)
-class Order(admin.ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'id', 'first_name', 'last_name',
         'email', 'address', 'postal_code',

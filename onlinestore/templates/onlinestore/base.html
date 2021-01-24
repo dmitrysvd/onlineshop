@@ -51,7 +51,7 @@
     </nav>
 
     <div class="container mt-3">
-        <ul class="nav nav-fill justify-content-center bg-light">
+        <ul class="nav flex-column flex-sm-row nav-fill justify-content-center bg-light">
             {% for category in categories %}
             <li class="nav-item">
                 <a class="nav-link link-dark" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
