@@ -137,7 +137,7 @@ class MainViewTests(TestCase):
         self.assertEqual(response.context['sale_item'], None)
 
     def test_popular_products_all_showed(self):
-        create_products(8)
+        create_products(4)
         response = self.client.get(reverse('onlinestore:main'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['popular_products'],
@@ -145,22 +145,15 @@ class MainViewTests(TestCase):
                                   '<Product: Product №2>',
                                   '<Product: Product №3>',
                                   '<Product: Product №4>',
-                                  '<Product: Product №5>',
-                                  '<Product: Product №6>',
-                                  '<Product: Product №7>',
-                                  '<Product: Product №8>'],
+                                  ],
                                  ordered=False)
 
-    def test_popular_products_only_eight_max_popular_showed(self):
+    def test_popular_products_only_four_max_popular_showed(self):
         create_products(16)
         response = self.client.get(reverse('onlinestore:main'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['popular_products'],
-                                 ['<Product: Product №9>',
-                                  '<Product: Product №10>',
-                                  '<Product: Product №11>',
-                                  '<Product: Product №12>',
-                                  '<Product: Product №13>',
+                                 ['<Product: Product №13>',
                                   '<Product: Product №14>',
                                   '<Product: Product №15>',
                                   '<Product: Product №16>'],

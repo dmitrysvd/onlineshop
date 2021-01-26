@@ -15,7 +15,7 @@ def main(request):
     except IndexError:
         sale_item = None
 
-    popular_products = Product.available_objects.order_by('-popularity')[:8]
+    popular_products = Product.available_objects.order_by('-popularity')[:4]
 
     context = {'sale_item': sale_item,
                'popular_products': popular_products, }
@@ -25,21 +25,10 @@ def main(request):
 def product_list(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     products = Product.available_objects.filter(category=category)
-
-    # sorting
-    sort_option = request.GET.get('sort')
-    if sort_option == 'popularity':
-        products = products.order_by('-popularity')
-    elif sort_option == 'price':
-        pass
-        # products = sorted(products, key=lambda p: p.current_price)
-    else:
-        products = products.order_by('-popularity')
-
-    filter_form = ProductFilter(request.GET, queryset=products)
+    products = products.order_by('-popularity')
 
     # pagination
-    paginator = Paginator(filter_form.qs, 12)
+    paginator = Paginator(products, 12)
     page = request.GET.get('page')
     try:
         page_obj = paginator.page(page)
@@ -49,9 +38,7 @@ def product_list(request, category_slug):
         page_obj = paginator.page(paginator.num_pages)
 
     context = {'category': category,
-               'page_obj': page_obj,
-               'filter': filter_form,
-               'sort_option': sort_option}
+               'page_obj': page_obj, }
     return render(request, 'onlinestore/product_list.html', context=context)
 
 
