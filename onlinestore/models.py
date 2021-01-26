@@ -97,6 +97,16 @@ class Product(models.Model):
         '''
         return self.discount_price if self.sale else self.price
 
+    @property
+    def discount_percentage(self):
+        '''
+        Return discount percentage
+        '''
+        if self.discount_price:
+            return 100 - int(100 * self.discount_price / self.price)
+        else:
+            return 0
+
     class Meta:
         ordering = ('name',)
 

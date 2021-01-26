@@ -43,16 +43,15 @@
             <div class="card-body">
                 <h4 class="card-title">{{ sale_item.name }}</h4>
                 <h5 class="card-subtitle">
-                    <p class="text-muted fs-6 text-decoration-line-through pt-3">{{ sale_item.price }} ₽</p>
+                    <p class="pt-3">
+                        <span class="text-muted fs-6 text-decoration-line-through">{{ sale_item.price }} ₽ </span>
+                    </p>
                     <p class="text-primary fs-4">
                         {{ sale_item.discount_price }} ₽
-                        <span class="badge bg-primary">Sale</span>
                     </p>
+                    <span class="badge bg-primary fs-5">Sale &nbsp -{{ sale_item.discount_percentage }} %</span>
                 </h5>
                 <a href="{{ sale_item.get_absolute_url }}" class="stretched-link"></a>
-            </div>
-            <div class="card-footer">
-                <p class="fs-6">Акция действует до <span class="fw-bolder text-primary">1931.02.31</span></p>
             </div>
         </div>
     </div>

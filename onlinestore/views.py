@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import F
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseNotFound
 from .models import Category, Product
@@ -10,7 +11,7 @@ import random
 def main(request):
     try:
         sale_item = random.choice(
-            Product.available_objects.filter(sale=True, available=True)
+            Product.available_objects.filter(sale=True)
         )
     except IndexError:
         sale_item = None

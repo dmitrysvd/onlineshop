@@ -26,7 +26,7 @@
     <div class="col-lg-6">
 
     {% if product.sale %}
-        <h3><span class="badge bg-primary fw-light mb-2">sale</span></h3>
+        <h3><span class="badge bg-primary mb-2">sale -{{ product.discount_percentage }} %</span></h3>
     {% endif %}
         <div class="d-flex justify-content-center">
             <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
