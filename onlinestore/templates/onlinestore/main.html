@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="row mt-5 justify-content-between gy-4">
-    <div class="col-lg-9">
+    <div class="col-lg-7">
         <div id="carouselIndicators" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             <li data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"></li>
@@ -99,7 +99,7 @@
     {% endfor %}
 </div>
 
-<div class="container mt-5">
+<div class="my-5">
     <h2 class="pb-2">Популярные товары</h2>
     <div class="row row-cols-1 row-cols-lg-4 row-cols-sm-2 g-4">
         {% for product in popular_products|slice:":4" %}
@@ -108,12 +108,6 @@
             </div>
         {% endfor %}
     </div>
-</div>
-
-<div class="container my-5 d-flex justify-content-center">
-    <a href="#">
-        <img class="img-fluid" src="{% static 'onlinestore/images/banner.jpg' %}" alt="Banner">
-    </a>
 </div>
 
 {% endblock content %}

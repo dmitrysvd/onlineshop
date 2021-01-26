@@ -26,18 +26,20 @@
     <div class="col-lg-6">
 
     {% if product.sale %}
-        <h3><span class="badge bg-primary fw-light">sale</span></h3>
+        <h3><span class="badge bg-primary fw-light mb-2">sale</span></h3>
     {% endif %}
-        <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
+        <div class="d-flex justify-content-center">
+            <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
+        </div>
 
-        <div class="container d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <div class="row flex-column">
             {% if product.sale %}
                 <div class="col d-flex justify-content-end">
                     <h3 class="text-muted fs-6 text-decoration-line-through pt-3 justify-self-center">{{ product.price }} ₽</h3>
                 </div>
             {% endif %}
-                <div class="col d-flex">
+                <div class="col">
                     <h2 class="fw-bold">
                         {{ product.current_price }} ₽
                     </h2>
