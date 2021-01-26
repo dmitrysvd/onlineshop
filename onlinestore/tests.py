@@ -3,7 +3,7 @@ from django.urls import reverse
 from onlinestore.models import Brand, Product, Category
 
 
-def create_products(count, category=None):
+def create_products(count, category=None, variable_availability=False):
     '''
     Create a given number of products
     '''
@@ -14,6 +14,7 @@ def create_products(count, category=None):
         category.save()
     products = []
     for i in range(count):
+        available = (i % 2 == 0) if variable_availability else True
         product = Product.objects.create(name=f'Product №{i + 1}',
                                          price=100,
                                          slug=f'product-{i + 1}',
@@ -23,7 +24,8 @@ def create_products(count, category=None):
                                          engine_power=100,
                                          engine_type='gas',
                                          number_of_seats=1,
-                                         year_of_issue=2017)
+                                         year_of_issue=2017,
+                                         available=available)
         product.save()
         products.append(product)
     return products
@@ -90,6 +92,40 @@ class ProductModelTests(TestCase):
         self.product.sale = True
         self.product.save()
         self.assertEqual(self.product.current_price, 800)
+
+
+class AvailableProductsManagerTests(TestCase):
+    def setUp(self):
+        self.category = Category.objects.create(name='test category',
+                                                slug='test-category')
+
+    def test_all_products_are_available(self):
+        products = create_products(count=8,
+                                   category=self.category,
+                                   variable_availability=False)
+        self.assertQuerysetEqual(Product.available_objects.all(),
+                                 ['<Product: Product №1>',
+                                  '<Product: Product №2>',
+                                  '<Product: Product №3>',
+                                  '<Product: Product №4>',
+                                  '<Product: Product №5>',
+                                  '<Product: Product №6>',
+                                  '<Product: Product №7>',
+                                  '<Product: Product №8>'],
+                                 ordered=False)
+
+    def test_varying_availability(self):
+        products = create_products(count=8,
+                                   category=self.category,
+                                   variable_availability=True)
+        queryset = Product.available_objects.all()
+        self.assertQuerysetEqual(queryset,
+                                 ['<Product: Product №1>',
+                                  '<Product: Product №3>',
+                                  '<Product: Product №5>',
+                                  '<Product: Product №7>',
+                                  ],
+                                 ordered=False)
 
 
 class MainViewTests(TestCase):
@@ -167,6 +203,25 @@ class ProductListViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'test_category')
         self.assertContains(response, 'не найдено')
+
+    def test_products_with_varying_availability_should_show_only_available_ones(self):
+        products = create_products(count=self.max_products_per_page,
+                                   category=self.category,
+                                   variable_availability=True)
+        response = self.client.get(self.category.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        page_obj = response.context['page_obj']
+        self.assertQuerysetEqual(page_obj.object_list,
+                                 [
+                                     '<Product: Product №1>',
+                                     '<Product: Product №3>',
+                                     '<Product: Product №5>',
+                                     '<Product: Product №7>',
+                                     '<Product: Product №9>',
+                                     '<Product: Product №11>',
+                                 ],
+                                 ordered=False)
+        self.assertEqual(page_obj.paginator.num_pages, 1)
 
     def test_products_amount_eq_max(self):
         products = create_products(count=self.max_products_per_page,

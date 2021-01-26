@@ -41,6 +41,12 @@ COUNTRY_CHOICES = (
 )
 
 
+class AvailableProductsManager(models.Manager):
+    def get_queryset(self):
+        return super(AvailableProductsManager, self).get_queryset() \
+                                                    .filter(available=True)
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
@@ -74,6 +80,10 @@ class Product(models.Model):
     engine_type = models.CharField(max_length=10, choices=ENGINE_TYPE_CHOICES)
     number_of_seats = models.IntegerField()
     year_of_issue = models.IntegerField()
+
+    # managers
+    objects = models.Manager()
+    available_objects = AvailableProductsManager()
 
     def save(self, *args, **kwargs):
         if self.discount_price is None:

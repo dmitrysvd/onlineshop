@@ -3,6 +3,10 @@ from django.conf import settings
 from onlinestore.models import Product
 
 
+class ProductNotAvailableException(Exception):
+    pass
+
+
 class Cart:
 
     def __init__(self, session):
@@ -16,6 +20,12 @@ class Cart:
         """
         Add product to cart.
         """
+
+        # check product availability
+        if not product.available:
+            raise ProductNotAvailableException(
+                "An attempt to add an unavailable product to the cart")
+
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 1,

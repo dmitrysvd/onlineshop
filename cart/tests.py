@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.conf import settings
 from onlinestore.models import Product, Category
-from .cart import Cart
+from .cart import Cart, ProductNotAvailableException
 from decimal import Decimal
 
 
@@ -83,6 +83,13 @@ class CartTestCase(TestCase):
         self.assertTrue(self.cart.contains(self.product))
         self.assertTrue(self.cart.contains(self.product_2))
         self.assertEqual(7, self.cart.get_total_quantity())
+
+    def test_try_to_add_unavailable_product_to_cart(self):
+        self.product.available = False
+        self.product.save()
+
+        self.assertRaises(ProductNotAvailableException,
+                          self.cart.add, self.product)
 
     def test_get_total_price_with_empty_cart(self):
         self.assertEqual(0, self.cart.get_total_price())

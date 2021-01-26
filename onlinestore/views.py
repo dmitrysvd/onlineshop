@@ -10,11 +10,13 @@ import random
 def main(request):
     try:
         sale_item = random.choice(
-            Product.objects.filter(sale=True, available=True)
+            Product.available_objects.filter(sale=True, available=True)
         )
     except IndexError:
         sale_item = None
-    popular_products = Product.objects.order_by('-popularity')[:8]
+
+    popular_products = Product.available_objects.order_by('-popularity')[:8]
+
     context = {'sale_item': sale_item,
                'popular_products': popular_products, }
     return render(request, 'onlinestore/main.html', context=context)
@@ -22,7 +24,7 @@ def main(request):
 
 def product_list(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
-    products = Product.objects.filter(category=category)
+    products = Product.available_objects.filter(category=category)
 
     # sorting
     sort_option = request.GET.get('sort')
@@ -54,11 +56,11 @@ def product_list(request, category_slug):
 
 
 def product_detail(request, product_id):
-    product = get_object_or_404(Product,
+    product = get_object_or_404(Product.available_objects,
                                 pk=product_id)
     cart = Cart(request.session)
     product_is_in_cart = cart.contains(product)
-    popular_products = Product.objects.order_by('-popularity')[:8]
+    popular_products = Product.available_objects.order_by('-popularity')[:8]
     context = {'product': product,
                'is_in_cart': product_is_in_cart,
                'popular_products': popular_products}
@@ -70,7 +72,7 @@ def search(request, option):
         return HttpResponseNotFound()
 
     query = request.GET.get('query', '')
-    products = Product.objects.all()
+    products = Product.available_objects.all()
 
     if option == 'brand':
         products = products.filter(brand__name__icontains=query)
