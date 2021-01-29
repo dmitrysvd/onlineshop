@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid px-md-5">
             <a class="navbar-brand" href="{% url 'onlinestore:main' %}">
-                Online shop
+                Магазин одежды
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,25 +24,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'onlinestore:main' %}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'onlinestore:main' %}">Главная</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">Контакты</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'cart:cart_detail' %}">
-                        Cart <i class="bi bi-cart2"></i>
-                        {% with cart.get_total_quantity as cart_total_quantity %}
-                            {% if cart_total_quantity > 0 %}
-                                <span class="badge bg-secondary">{{ cart_total_quantity }}</span>
-                            {% endif %}
-                        {% endwith %}
+                            Корзина <i class="bi bi-cart2"></i>
+                            {% with cart.get_total_quantity as cart_total_quantity %}
+                                {% if cart_total_quantity > 0 %}
+                                    <span class="badge bg-secondary">{{ cart_total_quantity }}</span>
+                                {% endif %}
+                            {% endwith %}
                         </a>
                     </li>
                 </ul>
@@ -63,63 +57,29 @@
 </header>
 
 <main>
-    <div class="container my-3">
+    <div class="container mt-3 mb-5">
         {% block content %}
         {% endblock content %}
     </div>
 </main>
 
-<footer class="footer bg-light mt-4 p-3">
+<footer class="footer bg-light mt-5 p-3">
     <div class="container bg-light">
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row justify-content-between">
+            <div class="col-md-6">
                 <p class="fw-bold">Подпишитесь на нашу рассылку и узнавайте об акциях первыми</p>
                 <form class="d-flex" method="post">
                     <input class="form-control me-2 bg-light" disabled name="email" type="text" placeholder="Введите ваш e-mail">
                     <button class="btn btn-outline-success disabled" type="submit">Подписаться</button>
                 </form>
             </div>
-            <div class="col-md-3">
-                <p class="fw-bold">Информация</p>
-                <ul>
-                    <li><a href="#">О компании</a></li>
-                    <li><a href="#">Контакты</a></li>
-                    <li><a href="#">Акции</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <p class="fw-bold">Интернет-магазин</p>
                 <ul>
-                    <li><a href="#">Доставка и самовывоз</a></li>
-                    <li><a href="#">Оплата</a></li>
-                    <li><a href="#">Новости</a></li>
+                    <li><a href="{% url 'onlinestore:main' %}">Главная</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="{% url 'cart:cart_detail' %}">Корзина</a></li>
                 </ul>
-            </div>
-            <div class="col-md-3 d-flex">
-                <div class="row align-self-center">
-                    <div class="col">
-                        <a href="#"><img src="{% static 'onlinestore/images/instagram.svg' %}" alt=""></a>
-                    </div>
-                    <div class="col">
-                        <a href="#"><img src="{% static 'onlinestore/images/vk.svg' %}" alt=""></a>
-                    </div>
-                    <div class="col">
-                        <a href="#"><img src="{% static 'onlinestore/images/facebook.svg' %}" alt=""></a>
-                    </div>
-                    <div class="col">
-                        <a href="#"><img src="{% static 'onlinestore/images/youtube.svg' %}" alt=""></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container d-flex justify-content-center">
-            <div class="row">
-                <div class="col">
-                    <a href="#" class="text-muted"><sub>Договор оферты</sub></a>
-                </div>
-                <div class="col">
-                    <a href="#" class="text-muted text-nowrap"><sub class="">Политика обработки персональных данных</sub></a>
-                </div>
             </div>
         </div>
     </div>
