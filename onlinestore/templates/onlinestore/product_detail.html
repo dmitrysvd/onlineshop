@@ -53,34 +53,12 @@
         <h4>Характеристики</h4>
         <table class="table">
             <tbody>
+                {% for field in product.get_product_attributes %}
                 <tr>
-                    <td>Страна-роизводитель</td>
-                    <td>{{ product.get_manufacturer_country_display }}</td>
+                    <td>{{ field.0 }}</td>
+                    <td>{{ field.1 }}</td>
                 </tr>
-                <tr>
-                    <td>Марка</td>
-                    <td>{{ product.brand.name }}</td>
-                </tr>
-                <tr>
-                    <td>Модель</div>
-                    <td>{{ product.model_name }}</td>
-                </tr>
-                <tr>
-                    <td>Количество мест, шт: </td>
-                    <td>{{ product.number_of_seats }}</td>
-                </tr>
-                <tr>
-                    <td>Мощность, л.с.</td>
-                    <td>{{ product.engine_power }}</td>
-                </tr>
-                <tr>
-                    <td>Тип двигателя</td>
-                    <td>{{ product.get_engine_type_display }}</td>
-                </tr>
-                <tr>
-                    <td>Год выпуска</td>
-                    <td>{{ product.year_of_issue }}</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
         {% if is_in_cart %}

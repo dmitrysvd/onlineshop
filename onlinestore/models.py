@@ -67,20 +67,6 @@ class Product(models.Model):
 
     popularity = models.FloatField(default=0)
 
-    # product properties
-    manufacturer_country = models.CharField(max_length=10,
-                                            choices=COUNTRY_CHOICES)
-    brand = models.ForeignKey(Brand,
-                              on_delete=models.CASCADE,
-                              related_name='products',
-                              blank=True,
-                              null=True)
-    model_name = models.CharField(max_length=200)
-    engine_power = models.IntegerField()
-    engine_type = models.CharField(max_length=10, choices=ENGINE_TYPE_CHOICES)
-    number_of_seats = models.IntegerField()
-    year_of_issue = models.IntegerField()
-
     # managers
     objects = models.Manager()
     available_objects = AvailableProductsManager()
@@ -89,6 +75,9 @@ class Product(models.Model):
         if self.discount_price is None:
             self.sale = False
         super().save(*args, **kwargs)
+
+    def get_product_attributes(self):
+        return self.attributes.get_product_attributes()
 
     @property
     def current_price(self):
@@ -115,3 +104,41 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("onlinestore:product_detail", args=[self.pk])
+
+
+class ProductAttributes(models.Model):
+    product = models.OneToOneField(Product,
+                                   related_name='attributes',
+                                   on_delete=models.CASCADE)
+    manufacturer_country = models.CharField('Страна-производитель',
+                                            max_length=10,
+                                            choices=COUNTRY_CHOICES)
+    brand = models.ForeignKey(Brand,
+                              verbose_name='Марка',
+                              on_delete=models.CASCADE,
+                              related_name='products',
+                              blank=True,
+                              null=True)
+    model_name = models.CharField('Модель', max_length=200)
+    engine_power = models.IntegerField('Мощность')
+    engine_type = models.CharField('Тип двигателя',
+                                   max_length=10,
+                                   choices=ENGINE_TYPE_CHOICES)
+    number_of_seats = models.IntegerField('Количество мест')
+    year_of_issue = models.IntegerField('Год выпуска')
+
+    def get_product_attributes(self):
+        attrs = []
+        for field in self._meta.get_fields():
+            # check if the field can be shown
+            if not field.one_to_one and \
+                    not field.primary_key and \
+                    field.verbose_name:
+                if field.choices is None:
+                    # get field value
+                    value = getattr(self, field.name)
+                else:
+                    # get human-readable value if field has choices
+                    value = getattr(self, f'get_{field.name}_display')()
+                attrs.append((field.verbose_name, value))
+        return attrs
