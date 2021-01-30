@@ -40,6 +40,14 @@ COUNTRY_CHOICES = (
     ('china', 'Китай')
 )
 
+SIZE_CHOICES = (
+    (1, 'S'),
+    (2, 'M'),
+    (3, 'L'),
+    (4, 'XL'),
+    (5, 'XXL'),
+)
+
 
 class AvailableProductsManager(models.Manager):
     def get_queryset(self):
@@ -110,22 +118,16 @@ class ProductAttributes(models.Model):
     product = models.OneToOneField(Product,
                                    related_name='attributes',
                                    on_delete=models.CASCADE)
-    manufacturer_country = models.CharField('Страна-производитель',
-                                            max_length=10,
-                                            choices=COUNTRY_CHOICES)
+
     brand = models.ForeignKey(Brand,
-                              verbose_name='Марка',
+                              verbose_name='Бренд',
                               on_delete=models.CASCADE,
                               related_name='products',
                               blank=True,
                               null=True)
-    model_name = models.CharField('Модель', max_length=200)
-    engine_power = models.IntegerField('Мощность')
-    engine_type = models.CharField('Тип двигателя',
-                                   max_length=10,
-                                   choices=ENGINE_TYPE_CHOICES)
-    number_of_seats = models.IntegerField('Количество мест')
-    year_of_issue = models.IntegerField('Год выпуска')
+    model = models.CharField('Модель', max_length=100, blank=True)
+    size = models.IntegerField('Размер', choices=SIZE_CHOICES, blank=True)
+    composition = models.CharField('Состав', max_length=100, blank=True)
 
     def get_product_attributes(self):
         attrs = []
@@ -140,5 +142,7 @@ class ProductAttributes(models.Model):
                 else:
                     # get human-readable value if field has choices
                     value = getattr(self, f'get_{field.name}_display')()
-                attrs.append((field.verbose_name, value))
+
+                if value is not None and value != '':
+                    attrs.append((field.verbose_name, value))
         return attrs
