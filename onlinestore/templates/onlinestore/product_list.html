@@ -5,18 +5,16 @@
 
 {% block title %}{{ category.name }}{% endblock title %}
 
-{% block content %}
+{% block breadcrumbs %}
+<li class="breadcrumb-item">
+    <a href="{% url 'onlinestore:main' %}">Главная</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    {{ category.name }}
+</li>
+{% endblock breadcrumbs %}
 
-<nav class="pt-5" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url 'onlinestore:main' %}">Главная</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-           {{ category.name }}
-        </li>
-    </ol>
-</nav>
+{% block content %}
 
 <div class="container pt-5">
     <h2 class="fw-bold pb-3">

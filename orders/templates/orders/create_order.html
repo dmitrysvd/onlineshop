@@ -4,6 +4,18 @@
   Оформление заказа
 {% endblock title %}
 
+{% block breadcrumbs %}
+<li class="breadcrumb-item">
+    <a href="{% url 'onlinestore:main' %}">Главная</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'cart:cart_detail' %}">
+        Корзина
+    </a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">Оформление заказа</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
 <div class="row g-4 my-5">

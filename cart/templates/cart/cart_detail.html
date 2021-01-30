@@ -3,6 +3,13 @@
 
 {% block title %}Корзина{% endblock title %}
 
+{% block breadcrumbs %}
+<li class="breadcrumb-item">
+    <a href="{% url 'onlinestore:main' %}">Главная</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">Корзина</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
 <h2 class="py-4">Ваша корзина</h2>

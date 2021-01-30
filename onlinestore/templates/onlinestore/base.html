@@ -56,6 +56,15 @@
 
 </header>
 
+<div class="container">
+<nav class="pt-5" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    {% block breadcrumbs %}
+    {% endblock breadcrumbs %}
+    </ol>
+</nav>
+</div>
+
 <main>
     <div class="container mt-3 mb-5">
         {% block content %}

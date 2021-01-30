@@ -4,23 +4,21 @@
 
 {% block title %}{{ product.name }}{% endblock title %}
 
-{% block content %}
+{% block breadcrumbs %}
+<li class="breadcrumb-item">
+    <a href="{% url 'onlinestore:main' %}">Главная</a>
+</li>
+<li class="breadcrumb-item" aria-current="page">
+    <a href="{{ product.category.get_absolute_url }}">
+        {{ product.category.name }}
+    </a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    {{ product.name }}
+</li>
+{% endblock breadcrumbs %}
 
-<nav class="pt-5" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url 'onlinestore:main' %}">Главная</a>
-        </li>
-        <li class="breadcrumb-item" aria-current="page">
-            <a href="{{ product.category.get_absolute_url }}">
-                {{ product.category.name }}
-            </a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-            {{ product.name }}
-        </li>
-    </ol>
-</nav>
+{% block content %}
 
 <div class="row my-5">
     <div class="col-lg-6">

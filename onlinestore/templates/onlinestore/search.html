@@ -4,6 +4,15 @@
 
 {% block title %}{{ category.name }}{% endblock title %}
 
+{% block breadcrumbs %}
+<li class="breadcrumb-item">
+    <a href="{% url 'onlinestore:main' %}">Главная</a>
+</li>
+<li class="breadcrumb-item active" aria-current="page">
+    Поиск
+</li>
+{% endblock breadcrumbs %}
+
 {% block content %}
 
 <div class="container pt-5">
