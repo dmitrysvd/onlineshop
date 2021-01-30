@@ -27,7 +27,7 @@
         <h3><span class="badge bg-primary mb-2">sale -{{ product.discount_percentage }} %</span></h3>
     {% endif %}
         <div class="d-flex justify-content-center">
-            <img class="img-fluid" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
+            <img class="img-fluid" style="max-height: 500px;" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
         </div>
 
         <div class="d-flex justify-content-center">

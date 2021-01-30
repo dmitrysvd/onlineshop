@@ -1,7 +1,7 @@
 {% load static %}
 
 <div class="card h-100 shadow-sm">
-    <img class="card-img-top img-fluid align-self-center" style="width: 13rem;" alt="Product image"
+    <img class="card-img-top img-fluid align-self-center m-2" style="width: 13rem;" alt="Product image"
             src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
     <div class="card-body">
         <h4 class="card-title">{{ product.name }}</h4>

@@ -29,11 +29,6 @@ def create_order(request):
                   {'cart': cart, 'form': form})
 
 
-def order_created(request):
-    return render(request,
-                  'orders/order_created.html')
-
-
 @staff_member_required
 def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)

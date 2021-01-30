@@ -41,7 +41,7 @@
             <div class="card-header">
                 <h5>Выгодное предложение</h5>
             </div>
-            <img class="card-img-top img-fluid align-self-center" style="width: 13rem;" alt="Product image"
+            <img class="card-img-top img-fluid align-self-center m-3" style="width: 13rem;" alt="Product image"
                     src="{% if sale_item.image %}{{ sale_item.image.url }}{% else %}{% static 'onlinestore/images/no-product-image.png' %}{% endif %}">
             <div class="card-body">
                 <h4 class="card-title">{{ sale_item.name }}</h4>
@@ -63,20 +63,11 @@
 
 <ul class="nav nav-tabs mt-5" id="searchTabs" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="brand-tab" data-bs-toggle="tab" href="#brand" role="tab" aria-controls="Search by brand" aria-selected="true">Поиск по марке</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="name-tab" data-bs-toggle="tab" href="#name" role="tab" aria-controls="Search by name" aria-selected="false">Поиск по названию</a>
+        <a class="nav-link active" id="name-tab" data-bs-toggle="tab" href="#name" role="tab" aria-controls="Search by name" aria-selected="true">Поиск по названию</a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="brand" role="tabpanel" aria-labelledby="brand-tab">
-        <form class="d-flex" action="{% url 'onlinestore:search' option='brand' %}" method="get">
-            <input class="form-control me-2 bg-light" name="query" type="search" placeholder="Введите марку">
-            <button class="btn btn-outline-success" type="submit">Поиск</button>
-        </form>
-    </div>
-    <div class="tab-pane fade" id="name" role="tabpanel" aria-labelledby="name-tab">
+    <div class="tab-pane fade show active" id="name" role="tabpanel" aria-labelledby="name-tab">
         <form class="d-flex" action="{% url 'onlinestore:search' option='name' %}" method="get">
             <input class="form-control me-2 bg-light" name="query" type="search" placeholder="Введите название">
             <button class="btn btn-outline-success" type="submit">Поиск</button>

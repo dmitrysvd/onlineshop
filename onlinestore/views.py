@@ -60,10 +60,7 @@ def search(request, option):
     query = request.GET.get('query', '')
     products = Product.available_objects.all()
 
-    if option == 'brand':
-        products = products.filter(brand__name__icontains=query)
-        query_text = 'Марка: ' + query
-    elif option == 'name':
+    if option == 'name':
         products = products.filter(name__icontains=query)
         query_text = 'Название: ' + query
     else:
