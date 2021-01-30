@@ -15,7 +15,7 @@ class ProductAttributesInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'price', 'sale', 'discount_price',
-                    'available', 'created', 'updated')
+                    'bought_count', 'available', 'created', 'updated')
     inlines = [
         ProductAttributesInline
     ]
@@ -23,7 +23,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'available', 'sale')
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
-    ordering = ('price', 'discount_price', 'created', 'updated')
+    ordering = ('price', 'discount_price', 'created', 'updated', 'bought_count')
 
 
 admin.site.register(Brand)

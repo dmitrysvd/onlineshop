@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from onlinestore.models import Product
 
 
@@ -28,6 +29,15 @@ class Order(models.Model):
 
     def get_total_quantity(self):
         return sum(item.quantity for item in self.items.all())
+
+    def make_paid(self, braintree_id):
+        self.paid = True
+        self.braintree_id = braintree_id
+        self.save()
+        # increase purchase counter for bought products
+        Product.objects\
+            .filter(order_items__in=OrderItem.objects.filter(order=self))\
+            .update(bought_count=F('bought_count') + 1)
 
 
 class OrderItem(models.Model):

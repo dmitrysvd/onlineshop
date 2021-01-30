@@ -16,7 +16,7 @@ def main(request):
     except IndexError:
         sale_item = None
 
-    popular_products = Product.available_objects.order_by('-popularity')[:4]
+    popular_products = Product.available_objects.order_by('-bought_count')[:4]
 
     context = {'sale_item': sale_item,
                'popular_products': popular_products, }
@@ -26,7 +26,7 @@ def main(request):
 def product_list(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     products = Product.available_objects.filter(category=category)
-    products = products.order_by('-popularity')
+    products = products.order_by('-bought_count')
 
     # pagination
     paginator = Paginator(products, 12)
@@ -48,10 +48,8 @@ def product_detail(request, product_id):
                                 pk=product_id)
     cart = Cart(request.session)
     product_is_in_cart = cart.contains(product)
-    popular_products = Product.available_objects.order_by('-popularity')[:8]
     context = {'product': product,
-               'is_in_cart': product_is_in_cart,
-               'popular_products': popular_products}
+               'is_in_cart': product_is_in_cart, }
     return render(request, 'onlinestore/product_detail.html', context=context)
 
 

@@ -65,7 +65,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    popularity = models.FloatField(default=0)
+    bought_count = models.IntegerField(default=0)
 
     # managers
     objects = models.Manager()

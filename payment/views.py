@@ -23,9 +23,7 @@ def payment_process(request):
             'options': {'submit_for_settlement': True},
         })
         if result.is_success:
-            order.paid = True
-            order.braintree_id = result.transaction.id
-            order.save()
+            order.make_paid(braintree_id=result.transaction.id)
             return redirect('payment:done')
         else:
             return redirect('payment:canceled')
