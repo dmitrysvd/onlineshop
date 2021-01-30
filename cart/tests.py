@@ -14,23 +14,11 @@ class CartTestCase(TestCase):
         self.product = Product.objects.create(name='Test product',
                                               price=100,
                                               slug='test-product',
-                                              popularity=0.1,
-                                              category=self.category,
-                                              model_name='test',
-                                              engine_power=100,
-                                              engine_type='gas',
-                                              number_of_seats=1,
-                                              year_of_issue=2017)
+                                              category=self.category)
         self.product_2 = Product.objects.create(name='Test product №2',
                                                 price=350,
                                                 slug='test-product-2',
-                                                popularity=0.1,
-                                                category=self.category,
-                                                model_name='test',
-                                                engine_power=100,
-                                                engine_type='gas',
-                                                number_of_seats=1,
-                                                year_of_issue=2017)
+                                                category=self.category)
         self.session = self.client.session
         self.session.save()
         self.cart = Cart(self.session)
