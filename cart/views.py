@@ -2,7 +2,6 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_POST
 from .cart import Cart
 from onlinestore.models import Product
-from .forms import ItemQuantityUpdateForm
 
 
 @require_POST
@@ -17,11 +16,10 @@ def cart_add(request, product_id):
 def cart_update(request, product_id):
     cart = Cart(request.session)
     product = get_object_or_404(Product, id=product_id)
-    form = ItemQuantityUpdateForm(request.POST)
-    if form.is_valid():
-        cd = form.cleaned_data
+    quantity = int(request.POST['quantity'])
+    if quantity > 0:
         cart.update(product=product,
-                    quantity=cd['quantity'])
+                    quantity=quantity)
     return redirect('cart:cart_detail')
 
 
@@ -36,9 +34,6 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart = Cart(request.session)
     items = [item for item in cart]
-    for item in items:
-        item['update_quantity_form'] = ItemQuantityUpdateForm(
-            initial={'quantity': item['quantity']})
     context = {'cart': cart,
                'items': items}
     return render(request, 'cart/cart_detail.html', context)
